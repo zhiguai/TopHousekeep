@@ -114,7 +114,7 @@ class Common extends Facade
             return array(false, '请先登入');
         }
         //查询数据
-        $result = Db::table('user')
+        $result = Db::table('admin')
             ->where('uuid', $uuid)
             ->find();
         //判断数据是否存在
@@ -142,7 +142,7 @@ class Common extends Facade
             return array(400, '缺少uuid');
         }
         //查询数据
-        $result = Db::table('user')
+        $result = Db::table('admin')
             ->where('uuid', $uuid)
             ->find();
         //判断数据是否存在

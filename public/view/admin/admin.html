@@ -18,12 +18,12 @@
                         <div class="mdui-col-xs-9 mdui-col-md-10">
                             <div class="mdui-textfield">
                                 <label class="mdui-textfield-label">用户名</label>
-                                <input class="mdui-textfield-input" id="addUserDataName" type="text" />
+                                <input class="mdui-textfield-input" id="addAdminDataName" type="text" />
                             </div>
                         </div>
                         <div class="mdui-col-xs-3 mdui-col-md-2">
                             <label class="mdui-textfield-label mdui-m-t-2">权限</label>
-                            <select class="mdui-select" id="addUserDataPower">
+                            <select class="mdui-select" id="addAdminDataPower">
                                 <option value="0">站长</option>
                                 <option value="1">管理员</option>
                             </select>
@@ -31,12 +31,12 @@
                     </div>
                     <div class="mdui-textfield">
                         <label class="mdui-textfield-label">密码</label>
-                        <input class="mdui-textfield-input" id="addUserDataPassword" type="password" />
+                        <input class="mdui-textfield-input" id="addAdminDataPassword" type="password" />
                     </div>
                 </div>
 
                 <div class="mdui-dialog-actions">
-                    <button class="mdui-btn mdui-ripple" id="btnAddUser" mdui-dialog-close>确定</button>
+                    <button class="mdui-btn mdui-ripple" id="btnAddAdmin" mdui-dialog-close>确定</button>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
                     {volist name='list' id='data'}
                     <tr>
                         <td>{$data.id}</td>
-                        <td>{$data.userName}</td>
+                        <td>{$data.name}</td>
                         <td value="{$data.power}">
                             <div class="mdui-chip">
                                 <span class="mdui-chip-title">
@@ -93,12 +93,12 @@
                 <div class="mdui-col-xs-9 mdui-col-md-10">
                     <div class="mdui-textfield">
                         <label class="mdui-textfield-label">用户名</label>
-                        <input class="mdui-textfield-input" id="editUserDataName" type="text" />
+                        <input class="mdui-textfield-input" id="editAdminDataName" type="text" />
                     </div>
                 </div>
                 <div class="mdui-col-xs-3 mdui-col-md-2">
                     <label class="mdui-textfield-label mdui-m-t-2">权限</label>
-                    <select class="mdui-select" id="editUserDataPower">
+                    <select class="mdui-select" id="editAdminDataPower">
                         <option value="0">站长</option>
                         <option value="1">管理员</option>
                     </select>
@@ -106,12 +106,12 @@
             </div>
             <div class="mdui-textfield">
                 <label class="mdui-textfield-label">密码</label>
-                <input class="mdui-textfield-input" id="editUserDataPassword" type="password" placeholder="不填默认不修改" />
+                <input class="mdui-textfield-input" id="editAdminDataPassword" type="password" placeholder="不填默认不修改" />
             </div>
         </div>
 
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" id="btnEditUser" mdui-dialog-close>确定</button>
+            <button class="mdui-btn mdui-ripple" id="btnEditAdmin" mdui-dialog-close>确定</button>
         </div>
     </div>
 
@@ -140,7 +140,7 @@
                 'uuid': $.cookie('uuid'),
                 'id': $(this).parent().siblings('td:first').html()
             };
-            var result = apiAjax0(data, apiUserDelete, 'POST');
+            var result = apiAjax0(data, apiAdminDelete, 'POST');
             if (result) {
                 $(this).parent().html("已删除");
                 mdui.snackbar({
@@ -153,21 +153,21 @@
         //按钮-初始化-编辑
         $('.js-Btn-Edit').click(function () {
             var thisObj = $(this).parent().siblings('td');
-            $('#editUserDataName').val(thisObj.eq(1).html());
-            $('#editUserDataPower').val(thisObj.eq(2).attr('value'));
-            $('#btnEditUser').val(thisObj.eq(0).html());
+            $('#editAdminDataName').val(thisObj.eq(1).html());
+            $('#editAdminDataPower').val(thisObj.eq(2).attr('value'));
+            $('#btnEditAdmin').val(thisObj.eq(0).html());
         });
 
         //按钮-请求-编辑
-        $('#btnEditUser').click(function () {
+        $('#btnEditAdmin').click(function () {
             var data = {
                 'uuid': $.cookie('uuid'),
-                'id': $('#btnEditUser').val(),
-                'userName': $('#editUserDataName').val(),
-                'password': $('#editUserDataPassword').val(),
-                'power': $('#editUserDataPower').val()
+                'id': $('#btnEditAdmin').val(),
+                'name': $('#editAdminDataName').val(),
+                'password': $('#editAdminDataPassword').val(),
+                'power': $('#editAdminDataPower').val()
             };
-            var result = apiAjax0(data, apiUserEdit, 'POST');
+            var result = apiAjax0(data, apiAdminEdit, 'POST');
             if (result) {
                 $.cookie('msg', '编辑成功', { path: '/' });
                 jumpUrl('', 100);
@@ -175,14 +175,14 @@
         });
 
         //按钮-请求-添加
-        $('#btnAddUser').click(function () {
+        $('#btnAddAdmin').click(function () {
             var data = {
                 'uuid': $.cookie('uuid'),
-                'userName': $('#addUserDataName').val(),
-                'password': $('#addUserDataPassword').val(),
-                'power': $('#addUserDataPower').val()
+                'name': $('#addAdminDataName').val(),
+                'password': $('#addAdminDataPassword').val(),
+                'power': $('#addAdminDataPower').val()
             };
-            var result = apiAjax0(data, apiUserAdd, 'POST');
+            var result = apiAjax0(data, apiAdminAdd, 'POST');
             if (result) {
                 $.cookie('msg', '添加成功', { path: '/' });
                 jumpUrl('', 100);
