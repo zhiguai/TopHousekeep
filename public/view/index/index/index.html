@@ -1,0 +1,129 @@
+{include file="index/public/header"}
+<style>
+    .swiper-slide {
+        position: relative;
+        height: 300px;
+    }
+</style>
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="0" class="mdui-container">
+
+    <div class="mdui-row">
+        <div class="mdui-row">
+            <!-- 滚动图 -->
+            <div class="swiper" data-theme-color="var(#ff5252!important)">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://s1.ax1x.com/2022/04/03/qH9r8g.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
+                    </div>
+                </div>
+                <!-- 分页器 -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分类组件 -->
+    <div class="mdui-p-t-2">
+        <div class="mdui-row">
+            <div class="mdui-row">
+                <div class="mdui-card mdui-shadow-0 mdui-p-x-2 mdui-p-t-2">
+                    <div class="mdui-row-xs-4">
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                        <div class="mdui-col mdui-text-center mdui-m-b-2">
+                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                                <i class="mdui-icon material-icons">add</i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 列表组件 -->
+    <div class="mdui-p-t-2">
+
+        <div class="mdui-row-xs-2">
+
+            <!-- 卡片循环 -->
+            {include file="index/public/component-list-cards"}
+            <!-- 分享弹窗 -->
+            {include file="index/public/component-share"}
+
+        </div>
+    </div>
+
+</div>
+
+
+{include file="index/public/footer"}
+
+<script>
+    $(function () {
+        //滚动大图
+        var mySwiper = new Swiper('.swiper', {
+            direction: 'horizontal', // 水平切换选项
+            loop: true, // 循环模式选项
+            height: 300,
+
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        })
+        //     //获取Tag数据
+        //     ViewCardsTag({ $cardsTagData| raw});
+    })
+</script>
+
+</body>
+
+</html>

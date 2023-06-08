@@ -1,0 +1,144 @@
+{include file="public/header"}
+<!-- 页体 -->
+<div class="mdui-container">
+
+    <!-- 标题组件 -->
+    <div class="mdui-row">
+        <div class="mdui-col-xs-6">
+            <h1 class="mdui-text-color-theme mdui-p-t-2">{$viewTitle}</h1>
+        </div>
+        <div class="mdui-col-xs-6">
+            <button class="mdui-m-t-4 mdui-float-right mdui-btn mdui-btn-raised mdui-color-theme-accent mdui-ripple"
+                onclick="jumpUrl('/index/cards/add',0)">添加卡片</button>
+        </div>
+    </div>
+
+    <!-- 主体组件 -->
+    <div class="mdui-table-fluid mdui-m-b-2">
+        <table class="mdui-table mdui-typo">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>状态</th>
+                    <th>置顶</th>
+                    <th>模型</th>
+                    <th>名字</th>
+                    <th>联系方式</th>
+                    <th>TA的名字</th>
+                    <th>TA的联系方式</th>
+                    <th>内容</th>
+                    <th>点赞数</th>
+                    <th>评论数</th>
+                    <th>浏览量</th>
+                    <th>图片</th>
+                    <th>时间</th>
+                    <th>IP</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name='list' id='data'}
+                <tr>
+                    <td>{$data.id}</td>
+                    <td value="{$data.state}">
+                        <div class="mdui-chip">
+                            {if $data.state == 0}
+                            <span class="mdui-chip-title">正常</span>
+                            {/if}
+                            {if $data.state == 1}
+                            <span class="mdui-chip-title">封禁</span>
+                            {/if}
+                        </div>
+                    </td>
+                    <td value="{$data.top}">
+                        <div class="mdui-chip">
+                            {if $data.top == 1}
+                            <span class="mdui-chip-title">Yes</span>
+                            {/if}
+                            {if $data.top == 0}
+                            <span class="mdui-chip-title">No</span>
+                            {/if}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="mdui-chip">
+                            <span class="mdui-chip-title">
+                                {$data.model}
+                            </span>
+                        </div>
+                    </td>
+                    <td>{if $data.woName != ''}{$data.woName}{else}[匿]{/if}</td>
+                    <td>{if $data.woContact != ''}{$data.woContact}{else}[无]{/if}</td>
+                    <td>{$data.taName}</td>
+                    <td>{if $data.taContact != ''}{$data.taContact}{else}[无]{/if}</td>
+                    <td>
+                        <input class="mdui-textfield-input" style="width:unset"
+                            mdui-tooltip="{content: '{$data.content}'}" type="text" value="{$data.content}"
+                            readonly="true" />
+                    </td>
+                    <td>{$data.good}</td>
+                    <td>{$data.comments}</td>
+                    <td>{$data.look}</td>
+                    <td>
+                        <div class="mdui-chip">
+                            <span class="mdui-chip-title">
+                                {if $data.img != ''}Yes{else}No{/if}
+                            </span>
+                        </div>
+                    </td>
+                    <td>{$data.time}</td>
+                    <td>{$data.ip}</td>
+                    <td>
+                        <button class="js-Btn-Edit mdui-btn mdui-btn-icon"
+                            onclick="jumpUrl('/admin/cards/edit/id/{$data.id}',0)">
+                            <i class="mdui-icon material-icons">edit</i>
+                        </button>
+                        <button class="js-Btn-Delete mdui-btn mdui-btn-icon">
+                            <i class="mdui-icon material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+                {/volist}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 分页按钮组件 -->
+    <div class="mdui-row mdui-text-center">
+        <div style="display: none;">{$list|raw}</div>
+        <button id="pageFirst" type="button" class="mdui-btn mdui-color-theme-accent">
+            <i class="mdui-icon material-icons ">first_page</i>
+        </button>
+        <button id="pageLast" type="button" class="mdui-btn mdui-color-theme-accent">
+            <i class="mdui-icon material-icons">last_page</i>
+        </button>
+    </div>
+
+</div>
+{include file="public/footer"}
+
+<script>
+    $(function (param) {
+        //初始化-分页组件
+        pager();
+
+        //按钮-删除
+        $('.js-Btn-Delete').click(function () {
+            var data = {
+                'uuid': $.cookie('uuid'),
+                'id': $(this).parent().siblings('td:first').html()
+            };
+            var result = apiAjax0(data, apicardsDelete, 'POST');
+            if (result) {
+                $(this).parent().html("已删除");
+                mdui.snackbar({
+                    message: '成功删除ID' + data['id'],
+                    position: 'left-top'
+                });
+            }
+        });
+    })
+</script>
+</body>
+
+</html>

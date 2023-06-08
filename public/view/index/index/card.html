@@ -1,0 +1,179 @@
+{include file="index/public/header"}
+
+<!-- 页体 -->
+<div class="mdui-container-fluid">
+    <div class="mdui-row">
+        <button class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised" style="margin: 6px;">
+            <i class="mdui-icon material-icons">arrow_back</i>
+        </button>
+        <!-- 滚动图 -->
+        <div class="swiper" data-theme-color="var(#ff5252!important)" style="margin-top: -42px;">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://s1.ax1x.com/2022/04/03/qH9r8g.jpg" alt="">
+                </div>
+                <div class="swiper-slide">
+                    <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
+                </div>
+            </div>
+            <!-- 分页器 -->
+            <div class="swiper-pagination"></div>
+
+            <!-- 导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <!-- 商品名 -->
+        <div class="mdui-card mdui-shadow-0 mdui-p-y-2 mdui-p-a-2">
+            <div class="mdui-m-x-1">
+                <div style="font-size: 24px;" class="mdui-typo-title mdui-text-color-theme-accent mdui-p-t-1">
+                    <span style="font-size: 18px;">￥</span>170
+                </div>
+                <div class="mdui-typo-title mdui-p-t-1">
+                    擦玻璃
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- 组件1 -->
+    <div class="mdui-row mdui-p-t-3">
+
+        <div class="mdui-card mdui-shadow-0">
+            <div class="mdui-tab" mdui-tab>
+                <a href="#" class="mdui-ripple">项目介绍</a>
+            </div>
+            <div class="mdui-typo mdui-p-x-1">
+                <div class="mdui-p-a-2">
+                    加载中
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 组件2 -->
+    <div class="mdui-row mdui-p-t-3">
+
+
+        <div class="mdui-card mdui-shadow-0">
+            <div class="mdui-tab" mdui-tab>
+                <a href="#" class="">交流</a>
+            </div>
+            <div class="mdui-typo mdui-p-x-1 mdui-p-b-2">
+                <div class="mdui-m-a-2">
+
+                    <div class="mdui-card-header-avatar">
+                        <img class="avatar"
+                            src="https://gravatar.loli.net/avatar/3639f696540acb8e37e4e6db9c4a8b6c?s=40&amp;d=">
+                    </div>
+
+                    <div class="mdui-card-header-title mdui-text-color-theme-accent mdui-p-t-1">
+                        <a href="http://chizg.cn" rel="external nofollow">评论名</a>
+                    </div>
+
+                    <div class="mdui-card-header-subtitle mdui-p-t-1" style="font-size: 8px;">评论日期</div>
+
+                    <div style="margin-left: 52px;font-size: 16px;" class="mdui-m-b-1">
+                        评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容
+                    </div>
+
+                    <div class="mdui-text-right">
+                        <a class="mdui-typo-caption" style="cursor:pointer;">回复</a>
+                    </div>
+                    <div class="mdui-divider"></div>
+                </div>
+
+                <div class="mdui-m-a-2">
+
+                    <div class="mdui-card-header-avatar">
+                        <img class="avatar"
+                            src="https://gravatar.loli.net/avatar/3639f696540acb8e37e4e6db9c4a8b6c?s=40&amp;d=">
+                    </div>
+
+                    <div class="mdui-card-header-title mdui-text-color-theme-accent mdui-p-t-1">
+                        <a href="http://chizg.cn" rel="external nofollow">评论名</a>
+                    </div>
+
+                    <div class="mdui-card-header-subtitle mdui-p-t-1" style="font-size: 8px;">评论日期</div>
+
+                    <div style="margin-left: 52px;font-size: 16px;" class="mdui-m-b-1">
+                        评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容
+                    </div>
+
+                    <div class="mdui-text-right">
+                        <a class="mdui-typo-caption" style="cursor:pointer;">回复</a>
+                    </div>
+                    <div class="mdui-divider"></div>
+                </div>
+
+                <div class="mdui-p-x-2">
+                    <label class="mdui-textfield-label">商品评价：</label>
+                    <textarea style="width: 94%;resize: none;" rows="4" placeholder="热情回复，文明用语"></textarea>
+                    <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple mdui-btn-raised">评
+                        价</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{include file="index/public/footer"}
+
+<script>
+    $(function () {
+        //滚动大图
+        var mySwiper = new Swiper('.swiper', {
+            direction: 'horizontal', // 水平切换选项
+            loop: true, // 循环模式选项
+
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        })
+
+        //初始化-分页组件
+        pager();
+        //初始化-Tag组件
+        // ViewCardsTag({$cardsTagData|raw});
+        //viewer图片放大插件初始化
+        $('#viewer').viewer({
+            url: 'src'
+        });
+    });
+
+    //请求-按钮-评论
+    $('#btnAddComments').click(function () {
+        // var data = {
+        //     'cid': {$cardData['id']},
+        //     'name': $('#addCommentsDataName').val(),
+        //     'content': $('#addCommentsDataContent').val(),
+        // };
+        //提交数据
+        var result = apiAjax0(data, apiUrlCardsCommentsAdd, 'POST');
+        if (result) {
+            //附加功能
+            $.cookie('msg', '评论成功', { path: '/' });//写入提示
+            //刷新页面
+            jumpUrl('', 100);
+        }
+    });
+</script>
+
+</body>
+
+</html>
