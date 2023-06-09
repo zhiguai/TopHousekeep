@@ -16,8 +16,10 @@ use app\Common\Common;
 
 class Cards
 {
-    //默认卡片状态ON/OFF:0/1
-    const DefSetCardsState = 0;
+    //默认卡片封禁状态ON/OFF:0/1
+    const DefSetCardsBan = false;
+    //默认卡片展示状态ON/OFF:0/1
+    const DefSetCardsStatus = false;
     //默认添加卡片上传图片个数
     const DefSetCardsImgNum = 9;
     //默认添加卡片标签个数
@@ -28,29 +30,22 @@ class Cards
     {
         //防手抖
         $preventClicks = Common::preventClicks('LastPostTime');
-        if($preventClicks[0] == false){
+        if ($preventClicks[0] == false) {
             //返回数据
             return Common::create(['prompt' => $preventClicks[1]], '添加失败', 500);
         }
 
         //获取数据
-        $content = Request::param('content');
+        $uid = Request::param('uid');
 
-        $woName = Request::param('woName');
-        $woContact = Request::param('woContact');
-        $taName = Request::param('taName');
-        $taContact = Request::param('taContact');
+        $price = Request::param('price');
+        $content = Request::param('content');
 
         $img = json_decode(Request::param('img'), true);
         $tag = json_decode(Request::param('tag'), true);
 
-        $model = Request::param('model');
-        if($model == 0){
-            $model = 0;
-        }else{
-            $model = 1;
-        }
-        $state = self::DefSetCardsState;
+        $status = self::DefSetCardsStatus;
+        $ban = self::DefSetCardsBan;
 
         //免验证
         $time = date('Y-m-d H:i:s');
@@ -59,24 +54,16 @@ class Cards
         //验证参数是否合法
         try {
             $tryData = [
+                'uid' => $uid,
                 'content' => $content,
 
-                'woName' => $woName,
-                'woContact' => $woContact,
-                'taName' => $taName,
-                'taContact' => $taContact,
+                'price' => $price,
 
-                'model' => $model,
-                'state' => $state
+                'ban' => $ban,
+                'status' => $status
             ];
-            if($model == 0){
-                validate(CardsValidate::class)->batch(true)
+            validate(CardsValidate::class)->batch(true)
                 ->check($tryData);
-            }else{
-                validate(CardsValidate::class)->batch(true)
-                ->scene('add1')
-                ->check($tryData);
-            }
         } catch (ValidateException $e) {
             // 验证失败 输出错误信息
             $cardsvalidateerror = $e->getError();
@@ -90,24 +77,16 @@ class Cards
         $data = array(); //清空数组
         //构建数据格式
         $data = [
+            'uid' => $uid,
+            'price' => $price,
             'content' => $content,
 
-            'woName' => $woName,
-            'woContact' => $woContact,
-            'taName' => $taName,
-            'taContact' => $taContact,
+            'status' => var_export($status, true),
+            'ban' => var_export($ban, true),
 
-            'model' => $model,
-            'state' => $state,
-
-            'time' => $time,
+            'date' => $time,
             'ip' => $ip,
         ];
-        // if ($model == 0) {
-        //     //表白卡模式
-        //     $data['taName'] = $taName;
-        //     $data['taContact'] = $taContact;
-        // }
 
         //Cards写入库
         $CardId = $result->insertGetId($data);
@@ -130,7 +109,7 @@ class Cards
                 $data[$key]['aid'] = 1;
                 $data[$key]['pid'] = $CardId;
                 $data[$key]['url'] = $value;
-                $data[$key]['time'] = $time;
+                $data[$key]['date'] = $time;
             }
             //img写入数据库若失败返回
             if (!$result->insertAll($data)) {
@@ -158,7 +137,7 @@ class Cards
             foreach ($tag as $key => $value) {
                 $data[$key]['cid'] = $CardId;
                 $data[$key]['tid'] = $value;
-                $data[$key]['time'] = $time;
+                $data[$key]['date'] = $time;
             }
             //tag写入数据库若失败返回
             if (!$result->insertAll($data)) {
@@ -181,19 +160,16 @@ class Cards
     {
 
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
         //获取数据
         $id = Request::param('id');
+        $uid = Request::param('uid');
+        $price = Request::param('price');
         $content = Request::param('content');
-
-        $woName = Request::param('woName');
-        $woContact = Request::param('woContact');
-        $taName = Request::param('taName');
-        $taContact = Request::param('taContact');
 
         $img = json_decode(Request::param('img'), true);
         //判断图片数量
@@ -207,8 +183,8 @@ class Cards
         }
 
         $top = Request::param('top');
-        $model = Request::param('model');
-        $state = Request::param('state');
+        $ban = Request::param('ban');
+        $status = Request::param('status');
         //免验证
         $time = date('Y-m-d H:i:s');
         $ip = Common::getIp();
@@ -218,22 +194,13 @@ class Cards
             $tryData = [
                 'content' => $content,
 
-                'woName' => $woName,
-                'woContact' => $woContact,
-                'taName' => $taName,
-                'taContact' => $taContact,
+                'price' => $price,
 
-                'model' => $model,
-                'state' => $state
+                'ban' => $ban,
+                'status' => $status
             ];
-            if($model == 0){
-                validate(CardsValidate::class)->batch(true)
+            validate(CardsValidate::class)->batch(true)
                 ->check($tryData);
-            }else{
-                validate(CardsValidate::class)->batch(true)
-                ->scene('add1')
-                ->check($tryData);
-            }
         } catch (ValidateException $e) {
             // 验证失败 输出错误信息
             $cardsvalidateerror = $e->getError();
@@ -250,25 +217,17 @@ class Cards
         $data = array(); //清空数组
         //构建数据格式
         $data = [
+            'uid' => $uid,
+            'price' => $price,
             'content' => $content,
 
-            'woName' => $woName,
-            'woContact' => $woContact,
-            'taName' => $taName,
-            'taContact' => $taContact,
-
-            'top' => $top,
-            'model' => $model,
-            'state' => $state,
+            'top' => var_export($top, true),
+            'status' => var_export($status, true),
+            'ban' => var_export($ban, true),
 
             'time' => $time,
             'ip' => $ip,
         ];
-        // if ($model == 0) {
-        //     //表白卡模式
-        //     $data['taName'] = $taName;
-        //     $data['taContact'] = $taContact;
-        // }
         //Cards写入库
         if (!$result->update($data)) {
             return Common::create(['cards' => '更新失败'], '编辑失败', 400);
@@ -349,9 +308,9 @@ class Cards
     {
 
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
         //获取数据

@@ -13,19 +13,6 @@
     <link rel="shortcut icon" href="{__A-assets__}/img/favicon.ico">
     <link rel="stylesheet" href="{__A-assets__}/mdui-v1.0.2/css/mdui.min.css" />
     <link rel="stylesheet" href="{__A-assets__}/base.css" />
-    <script>
-        var _paq = window._paq = window._paq || [];
-        _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function () {
-            var u = "//matomo.fatda.cn/";
-            _paq.push(['setTrackerUrl', u + 'matomo.php']);
-            _paq.push(['setSiteId', '9']);
-            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
-        })();
-    </script>
 </head>
 
 <body
@@ -38,7 +25,7 @@
                 mdui-drawer="{target: '#main-drawer', swipe: true}">
                 <i class="mdui-icon material-icons">menu</i>
             </span>
-            <a href="#" class="mdui-typo-headline">LoveCards</a>
+            <a href="#" class="mdui-typo-headline">管理后台</a>
             <div class="mdui-toolbar-spacer"></div>
 
             <div class="mdui-typo">
@@ -76,6 +63,20 @@
                 </div>
             </div>
 
+            <div class="mdui-collapse-item">
+                <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">extension</i>
+                    <div class="mdui-list-item-content">用户模块</div>
+                    <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                </div>
+                <div class="mdui-collapse-item-body mdui-list">
+                    <a href="/admin/Cards" class="mdui-list-item mdui-ripple">用户管理</a>
+                </div>
+                <div class="mdui-collapse-item-body mdui-list">
+                    <a href="/admin/CardsComments" class="mdui-list-item mdui-ripple">订单管理</a>
+                </div>
+            </div>
+
             {if $adminData['power'] == 0}
             <div class="mdui-collapse-item">
                 <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
@@ -90,10 +91,7 @@
                     <a href="/admin/System/view" class="mdui-list-item mdui-ripple">外观设置</a>
                 </div>
                 <div class="mdui-collapse-item-body mdui-list">
-                    <a href="/admin/User" class="mdui-list-item mdui-ripple">账号管理</a>
-                </div>
-                <div class="mdui-collapse-item-body mdui-list">
-                    <a href="/admin/Updata" class="mdui-list-item mdui-ripple">系统更新</a>
+                    <a href="/admin/Admin" class="mdui-list-item mdui-ripple">账号管理</a>
                 </div>
             </div>
             {/if}

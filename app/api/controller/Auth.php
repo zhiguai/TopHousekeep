@@ -8,7 +8,7 @@ use think\exception\ValidateException;
 use think\facade\Db;
 
 //验证类
-use app\api\validate\User as UserValidate;
+use app\api\validate\Admin as AdminValidate;
 
 //类
 use app\Common\Common;
@@ -20,15 +20,15 @@ class Auth
     //登入-POST
     public function login()
     {
-        $userName = Request::param('userName');
+        $name = Request::param('name');
         $password = Request::param('password');
 
         //验证参数是否合法
         try {
-            validate(UserValidate::class)->batch(true)
+            validate(AdminValidate::class)->batch(true)
                 ->scene('login')
                 ->check([
-                    'userName'  => $userName,
+                    'name'  => $name,
                     'password'   => $password,
                 ]);
         } catch (ValidateException $e) {
@@ -39,7 +39,7 @@ class Auth
 
         //获取数据对象
         $result = Db::table('user')
-            ->where('userName', $userName)
+            ->where('name', $name)
             ->where('password', sha1($password));
 
         //验证账号是否否存在
@@ -63,14 +63,14 @@ class Auth
     public function logout()
     {
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
         //获取数据对象
         $result = Db::table('user')
-            ->where('id', $userData['id']);
+            ->where('id', $adminData['id']);
 
         //整理数据
         $uuid = Null;

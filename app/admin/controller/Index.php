@@ -27,7 +27,7 @@ class Index
         {
             for ($i = 1; $i <= 6; $i++) {
                 $time = date('Y-m-d', strtotime('-' . $i . 'day'));
-                $arr[0][$i] = Db::table($key)->whereDay('time', $time)->count();
+                $arr[0][$i] = Db::table($key)->whereDay('date', $time)->count();
                 $arr[1][$i] = $time;
                 if($i==1)$arr[1][$i] = '昨日';
             }
