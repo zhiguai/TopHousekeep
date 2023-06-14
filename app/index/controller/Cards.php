@@ -27,29 +27,17 @@ class Cards
     {
         //参数
         $ip = Common::getIp();
-        $model = Request::param('model');
-        if ($model == 0) {
-            $model = 0;
-        } else {
-            $model = 1;
-        }
-        View::assign('cardsModel', $model);
 
         //取Cards列表数据
         $listNum = 12; //每页个数
-        if ($model == 0) {
-            $result = Db::table('cards')->where('state', 0)->where('model', 0)->order('id', 'desc')
-                ->paginate($listNum, true);
-        } else {
-            $result = Db::table('cards')->where('state', 0)->where('model', 1)->order('id', 'desc')
-                ->paginate($listNum, true);
-        }
+        $result = Db::table('cards')->where('ban', 'false')->where('status', 'false')->order('id', 'desc')
+            ->paginate($listNum, true);
 
         $cardsListRaw = $result->render();
         $listData = $result->items();
 
         //取标签数据
-        $result = Db::table('cards_tag')->where('state', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'false')->select()->toArray();
         $cardsTagData = $result;
         View::assign('cardsTagData', json_encode($cardsTagData));
 
@@ -95,22 +83,22 @@ class Cards
         $id = Request::param('id');
 
         //验证ID取Cards数据
-        $result = Db::table('cards')->where('id', $id)->findOrEmpty();
+        $result = Db::table('cards')->where('ban', 'false')->where('id', $id)->findOrEmpty();
         if (!$result) {
             return Common::jumpUrl('/index/Cards', '卡片ID不存在');
         }
         $cardData = $result;
 
         //防止快速刷新网页增加浏览量
-        $preventClicks = Common::preventClicks('LastGetTimeCardID'.$id, 60);
+        $preventClicks = Common::preventClicks('LastGetTimeCardID' . $id, 60);
         if ($preventClicks[0] == true) {
             //获取Cards数据库对象
-            $resultCards = Db::table('cards')->where('id', $id);
+            $resultCards = Db::table('cards')->where('ban', 'false')->where('id', $id);
             //更新视图字段
             if (!$resultCards->inc('look')->update()) {
                 return Common::create(['cards.look' => 'cards.look更新失败'], '无效浏览', 400);
             };
-            $cardData['look'] = $cardData['look']+1;
+            $cardData['look'] = $cardData['look'] + 1;
         }
 
         //取img数据
@@ -118,13 +106,13 @@ class Cards
         $imgData = $result;
 
         //取Tag数据
-        $result = Db::table('cards_tag')->where('state', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'false')->select()->toArray();
         $cardsTagData = $result;
         View::assign('cardsTagData', json_encode($cardsTagData));
 
         //获取评论列表
         $listNum = 6; //每页个数
-        $result = Db::table('cards_comments')->where('cid', $id)->where('state', 0)->order('id', 'desc')
+        $result = Db::table('cards_comments')->where('cid', $id)->where('ban', 'false')->order('id', 'desc')
             ->paginate($listNum, true);
         $cardsCommentsListRaw = $result->render();
         $listData = $result->items();
@@ -148,19 +136,17 @@ class Cards
         //卡片变量
         View::assign([
             'cardData' => $cardData,
-            'imgData' => $imgData,
-            'cardsModel' => $cardData['model']
+            'imgData' => $imgData
         ]);
 
-        if (!$cardData['woName']) $cardData['woName'] = '匿名';
         //基础变量
         View::assign([
             'TemplateDirectory' => '/view/index/' . $this->TemplateDirectory . '/assets',
             'systemVer' => Common::systemVer(),
             'systemData' => Common::systemData(),
-            'viewTitle'  => $cardData['woName'] . '的卡片',
-            'viewDescription' => $cardData['woName'] . '表白' . $cardData['woName'] . '说' . $cardData['content'],
-            'viewKeywords' => $cardData['woName'] . ',' . $cardData['taName'] . ',LoveCards,表白卡'
+            'viewTitle'  => '商品介绍',
+            'viewDescription' => $cardData['introduction'],
+            'viewKeywords' => '完美家政,商品介绍'
         ]);
 
         //输出模板
@@ -179,7 +165,7 @@ class Cards
         View::assign('cardsModel', $model);
 
         //取Tag数据
-        $result = Db::table('cards_tag')->where('state', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'false')->select()->toArray();
         $cardsTagData = $result;
         View::assign('cardsTagData', $cardsTagData);
 
@@ -217,15 +203,15 @@ class Cards
                 return Common::jumpUrl('/index/Cards/search', '请输入要搜索内容');
             }
 
-            if($model != 'false'){
-                if($model == 1){
+            if ($model != 'false') {
+                if ($model == 1) {
                     $whereData = 1;
-                }else{
+                } else {
                     $whereData = 0;
                 }
-                $result = Db::table('cards')->where('state', 0)->where('model', $whereData);
-            }else{
-                $result = Db::table('cards')->where('state', 0);
+                $result = Db::table('cards')->where('ban', 'false')->where('status', 'false')->where('model', $whereData);
+            } else {
+                $result = Db::table('cards')->where('ban', 'false')->where('status', 'false');
             }
             //dd($result);
             //取Cards列表
@@ -255,7 +241,7 @@ class Cards
         }
 
         //取Tag数据
-        $result = Db::table('cards_tag')->where('state', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'false')->select()->toArray();
         $cardsTagData = $result;
         View::assign('cardsTagData', json_encode($cardsTagData));
 
@@ -313,7 +299,7 @@ class Cards
         //组合Good状态到$listData列表
         for ($i = 0; $i < sizeof($TaglistData); $i++) {
             //取Cards数据
-            $requestCards = Db::table('cards')->where('state', 0)->where('id', $TaglistData[$i]['cid'])->findOrEmpty();
+            $requestCards = Db::table('cards')->where('ban', 'false')->where('status', 'false')->where('id', $TaglistData[$i]['cid'])->findOrEmpty();
             if ($requestCards) {
                 $resultGood = Db::table('good')->where('aid', 1)->where('ip', $ip);
                 //查找对应封面
@@ -330,7 +316,7 @@ class Cards
         }
 
         //取Tag数据
-        $result = Db::table('cards_tag')->where('state', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'false')->select()->toArray();
         $cardsTagData = $result;
         View::assign('cardsTagData', json_encode($cardsTagData));
 

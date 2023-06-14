@@ -12,6 +12,7 @@ use think\facade\Db;
 use think\facade\Cookie;
 use think\facade\Config;
 use think\facade\Session;
+use think\facade\Cache;
 
 class Common extends Facade
 {
@@ -99,7 +100,7 @@ class Common extends Facade
     }
 
     /**
-     * @description: 前端Coockie验证uuid
+     * @description: Admin前端Coockie验证uuid
      * @return {*}
      * @Author: github.com/zhiguai
      * @Date: 2022-12-29 18:56:45
@@ -127,7 +128,7 @@ class Common extends Facade
     }
 
     /**
-     * @description: API验证uuid并获取当前用户数据
+     * @description: AdminAPI验证uuid并获取当前用户数据
      * @return {*}
      * @Author: github.com/zhiguai
      * @Date: 2022-12-29 18:57:00
@@ -211,7 +212,7 @@ class Common extends Facade
         //dd($r);
         if ($r) {
             //当目录存在时
-            $r = $d;   
+            $r = $d;
         } else {
             $r = 'index';
         }
@@ -266,17 +267,86 @@ class Common extends Facade
     }
 
     //防手抖
-    protected static function preventClicks($setName,$time = 6){ 
-        if(strtotime(date("Y-m-d H:i:s"))>strtotime(Session::get($setName))){
+    protected static function preventClicks($setName, $time = 6)
+    {
+        if (strtotime(date("Y-m-d H:i:s")) > strtotime(Session::get($setName))) {
             //符合要求
             $result = [true];
-        }else{
-            $result = [false,'您的操作太快了，稍后再试试试吧'];
+        } else {
+            $result = [false, '您的操作太快了，稍后再试试试吧'];
         }
         //设置上次时间
-        Session::set($setName, date("Y-m-d H:i:s", strtotime('+'.$time.' second')));
+        Session::set($setName, date("Y-m-d H:i:s", strtotime('+' . $time . ' second')));
         //返回结果
         return $result;
+    }
+
+    /**
+     * @description: User前端Coockie验证uuid
+     * @return {*}
+     * @Author: github.com/zhiguai
+     * @Date: 2022-12-29 18:56:45
+     * @LastEditTime: Do not edit
+     * @LastEditors: github.com/zhiguai
+     */
+    protected static function validateViewUserAuth()
+    {
+        //整理数据
+        $uuid = Cookie::get('uuid');
+        if (empty($uuid)) {
+            return array(false, '请先登入');
+        }
+
+        //查询数据
+        $user_id = Cache::store('redis')->get($uuid);
+        if ($user_id) {
+            $result = Db::table('user')
+                ->where('id', $user_id)
+                ->find();
+            //判断数据是否存在
+            if (empty($result)) {
+                //用户数据不存在
+                return array(false, '未查询到用户信息');
+            } else {
+                //返回用户数据
+                return array(true, $result);
+            }
+        }
+        return array(false, '当前uuid已失效请重新登入');
+    }
+
+    /**
+     * @description: UserAPI验证uuid并获取当前用户数据
+     * @return {*}
+     * @Author: github.com/zhiguai
+     * @Date: 2022-12-29 18:57:00
+     * @LastEditTime: Do not edit
+     * @LastEditors: github.com/zhiguai
+     */
+    protected static function validateUserAuth()
+    {
+        //整理数据
+        $uuid = Request::param('uuid');
+        if (empty($uuid)) {
+            return array(400, '缺少uuid');
+        }
+
+        //查询数据
+        $user_id = Cache::store('redis')->get($uuid);
+        if ($user_id) {
+            $result = Db::table('user')
+                ->where('id', $user_id)
+                ->find();
+            //判断数据是否存在
+            if (empty($result)) {
+                //返回用户数据
+                return array(500, '未查询到用户信息');
+            } else {
+                //返回用户数据
+                return $result;
+            }
+        }
+        return array(401, '当前uuid已失效请重新登入');
     }
 }
 

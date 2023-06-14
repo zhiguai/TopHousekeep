@@ -1,17 +1,7 @@
 {include file="index/public/header"}
 
 <!-- 页体 -->
-<div id="jsParameter" jsTabClass="{if $cardsModel == 0}2{else}1{/if}" class="mdui-container">
-    <!-- 顶部按钮组件 -->
-    <div class="mdui-p-t-2">
-        {if $cardsModel == 0}
-        <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple mdui-btn-raised"
-            onclick="location.assign('/index/cards/add/model/0')">发布表白卡</button>
-        {else}
-        <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple mdui-btn-raised"
-            onclick="location.assign('/index/cards/add/model/1')">发布交流卡</button>
-        {/if}
-    </div>
+<div id="jsParameter" class="mdui-container">
 
     <!-- 主体组件 -->
     <div class="mdui-p-t-2">

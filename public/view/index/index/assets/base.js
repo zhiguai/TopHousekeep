@@ -3,6 +3,8 @@ var apiUrlCardsAdd = '/api/Cards/add'//添加卡
 var apiUrlCardsGood = '/api/Cards/good'//添加卡
 var apiUrlCardsCommentsAdd = '/api/CardsComments/add'//添加评论
 
+var apiUrlCardsCommentsAdd = '/api/CardsComments/add'//登入
+
 //初始化标签
 function ViewCardsTag(arr) {
     var CardsTagData = arr;

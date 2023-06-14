@@ -1,11 +1,4 @@
 <?php
-/*
- * @Description: 
- * @Author: github.com/zhiguai
- * @Date: 2022-12-26 18:53:25
- * @LastEditTime: 2023-05-15 00:09:54
- * @LastEditors: github.com/zhiguai
- */
 
 return [
     // 默认使用的数据库连接配置

@@ -1,12 +1,12 @@
             {volist name='cardsListData' id='data'}
             <div class="mdui-col mdui-m-b-2">
 
-                <div class="js-jumpurl-cardId mdui-card css-card mdui-shadow-0">
+                <div class="js-jumpurl-cardId mdui-card css-card mdui-shadow-0" value="{$data.id}">
                     <!-- 卡片头部，包含头像、标题、副标题 -->
 
                     {if $data.img}
                     <div class="css-card-media">
-                        <img src="{$data.img}" class="" value="{$data.id}" />
+                        <img src="{$data.img}" class="" />
                     </div>
                     {/if}
 
@@ -17,9 +17,9 @@
                             {$data.content}
                         </div>
                         <div style="font-size: 18px;" class="mdui-text-color-theme-accent mdui-p-t-1">
-                            <span style="font-size: 14px;">￥</span>170
+                            <span style="font-size: 14px;">￥</span>{$data.price}
                             <span
-                                style="font-size: 12px; opacity: .54; color: black;padding-top: 7px; display: inline-block; float: right;">18推荐</span>
+                                style="font-size: 12px; opacity: .54; color: black;padding-top: 7px; display: inline-block; float: right;">{$data.good}推荐</span>
                         </div>
                     </div>
 

@@ -1,0 +1,71 @@
+{include file="index/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="4" class="mdui-container-full">
+
+    <div class="mdui-p-t-5 mdui-m-t-5">
+        <h1 class="mdui-text-color-theme mdui-p-t-2 mdui-text-center">登入</h1>
+    </div>
+
+    <!-- 主体组件 -->
+    <div class="mdui-p-t-5">
+        <div class="mdui-card
+                    mdui-p-y-3
+                    mdui-p-x-3
+                    mdui-m-b-2
+                    mdui-shadow-0">
+            <!-- 组件层 -->
+            <div class="mdui-p-b-5">
+                <!--"账号"输入框-->
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <i class="mdui-icon material-icons">email</i>
+                    <label class="mdui-textfield-label">邮箱</label>
+                    <input class="mdui-textfield-input" type="email" id="userName">
+                </div>
+                <!--"密码"输入框-->
+                <div class="mdui-textfield mdui-textfield-floating-label">
+
+                    <i class="mdui-icon material-icons">lock</i>
+                    <label class="mdui-textfield-label">密码</label>
+                    <input class="mdui-textfield-input" type="password" id="password">
+                </div>
+                <div style="margin-left: 10px;" class="mdui-typo-caption mdui-text-color-black-disabled mdui-p-t-1 mdui-typo">
+                    <input type="radio"/>
+                    <span>请先阅读<a href="">《完美家政平台服务政策》</a></span>
+                </div>
+            </div>
+
+            <!-- 组件层 -->
+            <div class="mdui-p-b-3">
+                <button id="submitLogin" type="button"
+                    class="mdui-btn-block mdui-color-theme-accent mdui-btn mdui-ripple">
+                    登 录
+                </button>
+            </div>
+
+            <!-- 组件层 -->
+            <div class="mdui-divider"></div>
+
+            <!-- 组件层 -->
+            <div class="mdui-typo-caption mdui-text-color-black-disabled mdui-p-t-1 mdui-typo">
+                <!--废话 <kbd>Ver-2.0.0-1.0</kbd> -->
+                <p>欢迎使用完美家政平台</p>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+{include file="index/public/footer"}
+
+<script>
+    $(function () {
+
+    })
+</script>
+
+</body>
+
+</html>
