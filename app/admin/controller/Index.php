@@ -16,8 +16,8 @@ class Index
     public function index()
     {
         //验证身份并返回数据
-        $userData = Common::validateViewAuth();
-        if ($userData[0] == false) {
+        $adminData = Common::validateViewAuth();
+        if ($adminData[0] == false) {
             //跳转返回消息
             return Common::jumpUrl('/admin/login/index', '请先登入');
         }
@@ -51,7 +51,7 @@ class Index
 
         //基础变量
         View::assign([
-            'adminData'  => $userData[1],
+            'adminData'  => $adminData[1],
             'systemVer' => Common::systemVer(),
             'systemData' => Common::systemData(),
             'viewTitle'  => '总览'

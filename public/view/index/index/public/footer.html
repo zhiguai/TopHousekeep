@@ -1,5 +1,5 @@
 <!-- 底栏 -->
-<div style="z-index: 99999; padding-bottom: 14px;" class="mdui-bottom-nav mdui-bottom-nav-text-auto mdui-color-theme">
+<div id="indexBottomNav" class="mdui-bottom-nav mdui-bottom-nav-text-auto mdui-color-theme">
     <a href="/" id="jsTab1Class" class="mdui-ripple mdui-ripple-white">
         <i class="mdui-icon material-icons">home</i>
         <label>首页</label>
@@ -12,15 +12,11 @@
         <i class="mdui-icon material-icons">assignment</i>
         <label>订单</label>
     </a>
-    <a href="javascript:void(0);" id="jsTab4Class" class="mdui-ripple mdui-ripple-white">
+    <a href="/index/user/index" id="jsTab4Class" class="mdui-ripple mdui-ripple-white">
         <i class="mdui-icon material-icons">person</i>
         <label>我的</label>
     </a>
 </div>
-
-<!-- <div style="z-index: 99999; display: flex; justify-content: flex-end;" class="mdui-bottom-nav mdui-color-theme">
-    <button style="height: 100%;" class="mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple">下 单</button>
-</div> -->
 
 <div class="mdui-p-y-1"></div>
 <script src="{__A-assets__}/jquery-3.6.0/jquery.min.js"></script>
@@ -28,8 +24,13 @@
     /*
     *初始化导航栏样式
     */
-    jsTabClass = $('#jsParameter').attr('jsTabClass')
-    $('#jsTab' + jsTabClass + 'Class').attr('class', 'mdui-ripple mdui-ripple-white mdui-bottom-nav-active')
+    $('.mdui-bottom-nav').attr('style', $('.mdui-bottom-nav').attr('style') + 'z-index: 99999; padding-bottom: 14px;')
+    jsTabClass = $('#jsParameter').attr('jsTabClass');
+    if (jsTabClass == 'false') {
+        $('#indexBottomNav').attr('style', 'display: none;')
+    } else {
+        $('#jsTab' + jsTabClass + 'Class').attr('class', 'mdui-ripple mdui-ripple-white mdui-bottom-nav-active')
+    }
 </script>
 <script type="text/javascript" src="{__A-assets__}/mdui-v1.0.2/js/mdui.min.js"></script>
 <script type="text/javascript" src="{__A-assets__}/jquery_lazyload-1.9.7/jquery.lazyload.js"></script>

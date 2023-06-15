@@ -3,7 +3,9 @@ var apiUrlCardsAdd = '/api/Cards/add'//添加卡
 var apiUrlCardsGood = '/api/Cards/good'//添加卡
 var apiUrlCardsCommentsAdd = '/api/CardsComments/add'//添加评论
 
-var apiUrlCardsCommentsAdd = '/api/CardsComments/add'//登入
+var apiUrlUserAuthLogin = '/api/UserAuth/login'//登入
+var apiUrlUserAuthRegister = '/api/UserAuth/register'//注册
+var apiUrlUserAuthLogout = '/api/UserAuth/logout'//注销
 
 //初始化标签
 function ViewCardsTag(arr) {
@@ -115,6 +117,17 @@ $('.js-Btn-Update-CardsGood').click(function () {
         $(this).attr('class', 'css-card-actions-good-1 mdui-btn mdui-float-right');
         $(this).val(false);
         $(this).html('<i class="mdui-icon material-icons">favorite</i>点赞' + result.data.Num);
+        return;
+    }
+});
+
+//返回来时的路由
+$('.js-jumpurl-BackUp').attr('style', $('.js-jumpurl-BackUp').attr('style') + 'z-index: 99999;');
+$('.js-jumpurl-BackUp').click(function () {
+    var historyUrl = document.referrer;
+    if (historyUrl != '') {
+        window.location.href = historyUrl;
+    } else {
         return;
     }
 });

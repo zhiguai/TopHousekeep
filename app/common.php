@@ -292,7 +292,7 @@ class Common extends Facade
     protected static function validateViewUserAuth()
     {
         //整理数据
-        $uuid = Cookie::get('uuid');
+        $uuid = Cookie::get('user_uuid');
         if (empty($uuid)) {
             return array(false, '请先登入');
         }
@@ -326,7 +326,7 @@ class Common extends Facade
     protected static function validateUserAuth()
     {
         //整理数据
-        $uuid = Request::param('uuid');
+        $uuid = Request::param('user_uuid');
         if (empty($uuid)) {
             return array(400, '缺少uuid');
         }

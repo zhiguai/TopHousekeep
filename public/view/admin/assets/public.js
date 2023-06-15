@@ -216,20 +216,29 @@ function urlConversion(path) {
 */
 function pager() {
     //获取数据
-    pager = $(".pager").find("li");
-    pageFirst = pager.eq(0);
-    pageLast = pager.eq(1);
+    var pager = $(".pager").find("li");
+    var pageFirst = pager.eq(0);
+    var pageLast = pager.eq(1);
+
+    //处理当前页面url参数
+    var pageNowUrlConversion = urlConversion(window.location.href);
+    console.log(pageNowUrlConversion);
+    //拼接url
+    const pageNowUrlParams = pageNowUrlConversion[5] != undefined ? pageNowUrlConversion[5].replace(/\?/, "&").replace(/page=[^&]+/, "") : '';
+    var pageFirstUrl = pageFirst.children().attr("href") + pageNowUrlParams;
+    var pageLastUrl = pageLast.children().attr("href") + pageNowUrlParams;
+
     //判断分页按钮状态
     if (pageFirst.attr("class") == "disabled") {
         $("#pageFirst").attr("disabled", "");
     } else {
-        $("#pageFirst").attr("jumpUrl", pageFirst.children().attr("href"));
+        $("#pageFirst").attr("jumpUrl", pageFirstUrl);
     }
 
     if (pageLast.attr("class") == "disabled") {
         $("#pageLast").attr("disabled", "");
     } else {
-        $("#pageLast").attr("jumpUrl", pageLast.children().attr("href"));
+        $("#pageLast").attr("jumpUrl", pageLastUrl);
     }
     //翻页按钮初始化
     if (pager.length == 0) {

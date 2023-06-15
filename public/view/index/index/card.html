@@ -1,9 +1,9 @@
 {include file="index/public/header"}
 
 <!-- 页体 -->
-<div class="mdui-container-fluid">
+<div id="jsParameter" jsTabClass="false" class="mdui-container-fluid">
     <div class="mdui-row">
-        <button class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised" style="margin: 6px;">
+        <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised" style="margin: 6px;">
             <i class="mdui-icon material-icons">arrow_back</i>
         </button>
         <!-- 滚动图 -->
@@ -114,7 +114,7 @@
                 </div>
 
                 <div class="mdui-p-x-2">
-                    <label class="mdui-textfield-label">商品评价：</label>
+                    <label class="mdui-textfield-label mdui-shadow-0">商品评价：</label>
                     <textarea style="width: 94%;resize: none;" rows="4" placeholder="热情回复，文明用语"></textarea>
                     <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple mdui-btn-raised">评
                         价</button>
@@ -125,6 +125,12 @@
     </div>
 </div>
 
+<div style="z-index: 99999; display: flex; justify-content: flex-end;" class="mdui-bottom-nav mdui-color-theme">
+    <button style="height: 130%; width: 30%; font-size: 18px; font-weight:900;" class="mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple mdui-shadow-0">
+        <i class="mdui-icon material-icons">shopping_cart</i> 下 单
+    </button>
+</div>
+<div class="mdui-p-a-5"></div>
 {include file="index/public/footer"}
 
 <script>

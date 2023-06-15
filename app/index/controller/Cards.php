@@ -194,7 +194,6 @@ class Cards
 
         if ($search == true) {
             //参数
-            $model = Request::param('model');
             $value = Request::param('value');
             $viewTitle = $value . '的搜索结果';
 
@@ -203,20 +202,12 @@ class Cards
                 return Common::jumpUrl('/index/Cards/search', '请输入要搜索内容');
             }
 
-            if ($model != 'false') {
-                if ($model == 1) {
-                    $whereData = 1;
-                } else {
-                    $whereData = 0;
-                }
-                $result = Db::table('cards')->where('ban', 'false')->where('status', 'false')->where('model', $whereData);
-            } else {
-                $result = Db::table('cards')->where('ban', 'false')->where('status', 'false');
-            }
+            $result = Db::table('cards')->where('ban', 'false')->where('status', 'false');
+
             //dd($result);
             //取Cards列表
-            $listNum = 12; //每页个数
-            $result = $result->where('id|content|woName|taName', 'like', '%' . $value . '%')->order('id', 'desc')
+            $listNum = 2; //每页个数
+            $result = $result->where('id|content|introduction', 'like', '%' . $value . '%')->order('id', 'desc')
                 ->paginate($listNum, true);
             $cardsListRaw = $result->render();
             $listData = $result->items();
@@ -235,7 +226,7 @@ class Cards
             }
         } else {
             //定义为空
-            $cardsListRaw = [];
+            $cardsListRaw = null;
             $listData = [];
             $listNum = [];
         }

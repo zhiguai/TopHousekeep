@@ -17,7 +17,7 @@ use app\Common\Common;
 
 class UserAuth
 {
-    //默认账户封禁状态ON/OFF:0/1
+    //默认注册账户封禁状态ON/OFF:0/1
     const DefSetUserBan = 'false';
 
     //设置登入凭证
@@ -143,7 +143,7 @@ class UserAuth
             return Common::create([], $userData[1], $userData[0]);
         }
 
-        $uuid = Request::param('uuid');
+        $uuid = Request::param('user_uuid');
 
         //清除uuid
         if (Cache::store('redis')->delete($uuid)) {

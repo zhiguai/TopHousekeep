@@ -17,15 +17,37 @@ class User
     var $TemplateDirectory;
     function __construct()
     {
-        //安装检测
-        @$file = fopen("../lock.txt", "r");
-        if (!$file) {
-            header("location:/system/install");
-            exit;
-        }
-
         $this->TemplateDirectoryPath = Common::get_templateDirectory()[0];
         $this->TemplateDirectory = Common::get_templateDirectory()[1];
+    }
+
+    //输出
+    public function index()
+    {
+        //验证身份并返回数据
+        $userData = Common::validateViewUserAuth();
+        if ($userData[0] == false) {
+            //跳转返回消息
+            return Common::jumpUrl('/index/user/login', '请先登入');
+        }
+
+        if($userData[1]['avatar'] == ''){
+            $userData[1]['avatar'] = 'https://img1.imgtp.com/2023/06/15/By2uYcJf.png';
+        }
+
+        //基础变量
+        View::assign([
+            'userData'  => $userData[1],
+            'TemplateDirectory' => '/view/index/' . $this->TemplateDirectory . '/assets',
+            'systemVer' => Common::systemVer(),
+            'systemData' => Common::systemData(),
+            'viewTitle'  => '用户中心',
+            'viewDescription' => false,
+            'viewKeywords' => false
+        ]);
+
+        //输出模板
+        return View::fetch($this->TemplateDirectoryPath . '/user/index');
     }
 
     //输出
@@ -43,7 +65,7 @@ class User
         ]);
 
         //输出模板
-        return View::fetch($this->TemplateDirectoryPath . '/login');
+        return View::fetch($this->TemplateDirectoryPath . '/user/login');
     }
 
     //输出
@@ -61,6 +83,6 @@ class User
         ]);
 
         //输出模板
-        return View::fetch($this->TemplateDirectoryPath . '/login');
+        return View::fetch($this->TemplateDirectoryPath . '/user/register');
     }   
 }
