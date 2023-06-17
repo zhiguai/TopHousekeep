@@ -37,6 +37,6 @@ class CardsTag
         ]);
 
         //输出模板
-        return View::fetch('/cards-tag');
+        return View::fetch('/cards/cards-tag');
     }
 }

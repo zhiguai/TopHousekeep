@@ -222,7 +222,7 @@ function pager() {
 
     //处理当前页面url参数
     var pageNowUrlConversion = urlConversion(window.location.href);
-    console.log(pageNowUrlConversion);
+
     //拼接url
     const pageNowUrlParams = pageNowUrlConversion[5] != undefined ? pageNowUrlConversion[5].replace(/\?/, "&").replace(/page=[^&]+/, "") : '';
     var pageFirstUrl = pageFirst.children().attr("href") + pageNowUrlParams;

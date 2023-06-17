@@ -36,13 +36,18 @@ class Cards
         }
 
         //获取数据
-        $uid = Request::param('uid');
+        $uid = '0';
 
         $price = Request::param('price');
         $content = Request::param('content');
+        $introduction = Request::param('introduction');
 
         $img = json_decode(Request::param('img'), true);
         $tag = json_decode(Request::param('tag'), true);
+        //判断是否上传图片
+        if (empty($img)) {
+            return Common::create(['img' => '请上传图片'], '添加失败', 400);
+        }
 
         $status = self::DefSetCardsStatus;
         $ban = self::DefSetCardsBan;
@@ -56,6 +61,7 @@ class Cards
             $tryData = [
                 'uid' => $uid,
                 'content' => $content,
+                'introduction' => $introduction,
 
                 'price' => $price,
 
@@ -80,6 +86,7 @@ class Cards
             'uid' => $uid,
             'price' => $price,
             'content' => $content,
+            'introduction' => $introduction,
 
             'status' => var_export($status, true),
             'ban' => var_export($ban, true),
@@ -167,11 +174,17 @@ class Cards
 
         //获取数据
         $id = Request::param('id');
-        $uid = Request::param('uid');
+        $uid = '0';
         $price = Request::param('price');
         $content = Request::param('content');
+        $introduction = Request::param('introduction');
 
         $img = json_decode(Request::param('img'), true);
+        
+        //判断是否上传图片
+        if (sizeof($img) < 1) {
+            return Common::create(['img' => '请上传图片'], '编辑失败', 400);
+        }
         //判断图片数量
         if (sizeof($img) > self::DefSetCardsImgNum) {
             return Common::create(['img' => 'img超过数量限制'], '编辑失败', 400);
@@ -182,9 +195,10 @@ class Cards
             return Common::create(['tag' => 'tag超过数量限制'], '编辑失败', 400);
         }
 
-        $top = Request::param('top');
-        $ban = Request::param('ban');
-        $status = Request::param('status');
+        $top = (Request::param('top') != 'false');
+        $ban = (Request::param('ban') != 'false');
+        $status = (Request::param('status') != 'false');
+
         //免验证
         $time = date('Y-m-d H:i:s');
         $ip = Common::getIp();
@@ -192,7 +206,9 @@ class Cards
         //验证参数是否合法
         try {
             $tryData = [
+                'uid' => $uid,
                 'content' => $content,
+                'introduction' => $introduction,
 
                 'price' => $price,
 
@@ -220,12 +236,13 @@ class Cards
             'uid' => $uid,
             'price' => $price,
             'content' => $content,
+            'introduction' => $introduction,
 
             'top' => var_export($top, true),
             'status' => var_export($status, true),
             'ban' => var_export($ban, true),
 
-            'time' => $time,
+            'date' => $time,
             'ip' => $ip,
         ];
         //Cards写入库
@@ -249,7 +266,7 @@ class Cards
                 $data[$key]['aid'] = 1;
                 $data[$key]['pid'] = $id;
                 $data[$key]['url'] = $value;
-                $data[$key]['time'] = $time;
+                $data[$key]['date'] = $time;
             }
 
             //img写入数据库若失败返回
@@ -282,7 +299,7 @@ class Cards
             foreach ($tag as $key => $value) {
                 $data[$key]['cid'] = $id;
                 $data[$key]['tid'] = $value;
-                $data[$key]['time'] = $time;
+                $data[$key]['date'] = $time;
             }
             //tag_map写入数据库若失败返回
             if (!$result->insertAll($data)) {
@@ -345,7 +362,7 @@ class Cards
         return Common::create([], '删除成功', 200);
     }
 
-    //点赞-POST
+    //推荐-POST
     public function good()
     {
         //获取数据

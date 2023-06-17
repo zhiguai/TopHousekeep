@@ -21,7 +21,7 @@ class User
         $this->TemplateDirectory = Common::get_templateDirectory()[1];
     }
 
-    //输出
+    //用户中心
     public function index()
     {
         //验证身份并返回数据
@@ -50,7 +50,32 @@ class User
         return View::fetch($this->TemplateDirectoryPath . '/user/index');
     }
 
-    //输出
+    //订单列表
+    public function order()
+    {
+        //验证身份并返回数据
+        $userData = Common::validateViewUserAuth();
+        if ($userData[0] == false) {
+            //跳转返回消息
+            return Common::jumpUrl('/index/user/login', '请先登入');
+        }
+
+        //基础变量
+        View::assign([
+            'userData'  => $userData[1],
+            'TemplateDirectory' => '/view/index/' . $this->TemplateDirectory . '/assets',
+            'systemVer' => Common::systemVer(),
+            'systemData' => Common::systemData(),
+            'viewTitle'  => '查看订单',
+            'viewDescription' => false,
+            'viewKeywords' => false
+        ]);
+
+        //输出模板
+        return View::fetch($this->TemplateDirectoryPath . '/user/order');
+    }
+
+    //登入
     public function login()
     {
 
@@ -68,7 +93,7 @@ class User
         return View::fetch($this->TemplateDirectoryPath . '/user/login');
     }
 
-    //输出
+    //注册
     public function register()
     {
 

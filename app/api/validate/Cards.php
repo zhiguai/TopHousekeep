@@ -11,6 +11,7 @@ class Cards extends Validate
         'uid' => 'require|number',    
         'price' => 'require|float',    
 
+        'introduction' => 'require',
         'content' => 'require',
 
         'good' => 'number',
@@ -30,6 +31,7 @@ class Cards extends Validate
         'price.float' => 'price格式错误',
 
         'content.require' => 'content不得为空',
+        'introduction.require' => 'introduction不得为空',
 
         'good.number' => 'good格式非法',
         'comments.number' => 'comments格式非法',

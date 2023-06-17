@@ -75,6 +75,46 @@ class Cards
         return View::fetch($this->TemplateDirectoryPath . '/cards');
     }
 
+    //购买
+    public function buy()
+    {
+        //验证身份并返回数据
+        $userData = Common::validateViewUserAuth();
+        if ($userData[0] == false) {
+            //跳转返回消息
+            return Common::jumpUrl('/index/user/login', '请先登入');
+        }
+
+        //参数
+        $id = Request::param('id');
+
+        //验证ID取Cards数据
+        $result = Db::table('cards')->where('ban', 'false')->where('id', $id)->findOrEmpty();
+        if (!$result) {
+            return Common::jumpUrl('/index/Cards', '卡片ID不存在');
+        }
+        $cardData = $result;
+
+        //卡片变量
+        View::assign([
+            'cardData' => $cardData
+        ]);
+
+        //基础变量
+        View::assign([
+            'userData'  => $userData[1],
+            'TemplateDirectory' => '/view/index/' . $this->TemplateDirectory . '/assets',
+            'systemVer' => Common::systemVer(),
+            'systemData' => Common::systemData(),
+            'viewTitle'  => '购买服务',
+            'viewDescription' => false,
+            'viewKeywords' => false
+        ]);
+
+        //输出模板
+        return View::fetch($this->TemplateDirectoryPath . '/buy');
+    }
+
     //卡片详情
     public function card()
     {

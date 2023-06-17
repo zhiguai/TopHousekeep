@@ -9,7 +9,7 @@
         </div>
         <div class="mdui-col-xs-6">
             <button class="mdui-m-t-4 mdui-float-right mdui-btn mdui-btn-raised mdui-color-theme-accent mdui-ripple"
-                onclick="jumpUrl('/index/cards/add',0)">添加卡片</button>
+                onclick="jumpUrl('/admin/cards/add',0)">添加卡片</button>
         </div>
     </div>
 
@@ -19,15 +19,12 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>UID</th>
                     <th>状态</th>
                     <th>置顶</th>
-                    <th>模型</th>
-                    <th>名字</th>
-                    <th>联系方式</th>
-                    <th>TA的名字</th>
-                    <th>TA的联系方式</th>
-                    <th>内容</th>
-                    <th>点赞数</th>
+                    <th>简介</th>
+                    <th>价格</th>
+                    <th>推荐数</th>
                     <th>评论数</th>
                     <th>浏览量</th>
                     <th>图片</th>
@@ -40,42 +37,33 @@
                 {volist name='list' id='data'}
                 <tr>
                     <td>{$data.id}</td>
-                    <td value="{$data.state}">
+                    <td>{$data.uid}</td>
+                    <td value="{$data.status}">
                         <div class="mdui-chip">
-                            {if $data.state == 0}
-                            <span class="mdui-chip-title">正常</span>
+                            {if $data.status == 'false'}
+                            <span class="mdui-chip-title">false</span>
                             {/if}
-                            {if $data.state == 1}
-                            <span class="mdui-chip-title">封禁</span>
+                            {if $data.status == 'true'}
+                            <span class="mdui-chip-title">true</span>
                             {/if}
                         </div>
                     </td>
                     <td value="{$data.top}">
                         <div class="mdui-chip">
-                            {if $data.top == 1}
-                            <span class="mdui-chip-title">Yes</span>
+                            {if $data.top == 'true'}
+                            <span class="mdui-chip-title">true</span>
                             {/if}
-                            {if $data.top == 0}
-                            <span class="mdui-chip-title">No</span>
+                            {if $data.top == 'false'}
+                            <span class="mdui-chip-title">false</span>
                             {/if}
                         </div>
                     </td>
-                    <td>
-                        <div class="mdui-chip">
-                            <span class="mdui-chip-title">
-                                {$data.model}
-                            </span>
-                        </div>
-                    </td>
-                    <td>{if $data.woName != ''}{$data.woName}{else}[匿]{/if}</td>
-                    <td>{if $data.woContact != ''}{$data.woContact}{else}[无]{/if}</td>
-                    <td>{$data.taName}</td>
-                    <td>{if $data.taContact != ''}{$data.taContact}{else}[无]{/if}</td>
                     <td>
                         <input class="mdui-textfield-input" style="width:unset"
-                            mdui-tooltip="{content: '{$data.content}'}" type="text" value="{$data.content}"
+                            mdui-tooltip="{introduction: '{$data.introduction}'}" type="text" value="{$data.introduction}"
                             readonly="true" />
                     </td>
+                    <td>{$data.price}</td>
                     <td>{$data.good}</td>
                     <td>{$data.comments}</td>
                     <td>{$data.look}</td>
@@ -86,7 +74,7 @@
                             </span>
                         </div>
                     </td>
-                    <td>{$data.time}</td>
+                    <td>{$data.date}</td>
                     <td>{$data.ip}</td>
                     <td>
                         <button class="js-Btn-Edit mdui-btn mdui-btn-icon"

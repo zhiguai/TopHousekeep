@@ -1,23 +1,21 @@
 {include file="index/public/header"}
 
 <!-- 页体 -->
-<div id="jsParameter" jsTabClass="false" class="mdui-container-fluid">
+<div id="jsParameter" jsTabClass="false" layer=1 class="mdui-container-fluid">
     <div class="mdui-row">
-        <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised" style="margin: 6px;">
+        <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+            style="margin: 6px;">
             <i class="mdui-icon material-icons">arrow_back</i>
         </button>
         <!-- 滚动图 -->
-        <div class="swiper" data-theme-color="var(#ff5252!important)" style="margin-top: -42px;">
+        <div class="swiper" data-theme-color="var(#ff5252!important)" style="margin-top: -48px;">
             <div class="swiper-wrapper">
+                <!-- 图片容器 -->
+                {volist name='imgData' id='data'}
                 <div class="swiper-slide">
-                    <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
+                    <img src="{$data.url}" alt="">
                 </div>
-                <div class="swiper-slide">
-                    <img src="https://s1.ax1x.com/2022/04/03/qH9r8g.jpg" alt="">
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
-                </div>
+                {/volist}
             </div>
             <!-- 分页器 -->
             <div class="swiper-pagination"></div>
@@ -31,10 +29,10 @@
         <div class="mdui-card mdui-shadow-0 mdui-p-y-2 mdui-p-a-2">
             <div class="mdui-m-x-1">
                 <div style="font-size: 24px;" class="mdui-typo-title mdui-text-color-theme-accent mdui-p-t-1">
-                    <span style="font-size: 18px;">￥</span>170
+                    <span style="font-size: 18px;">￥</span>{$cardData['price']}
                 </div>
                 <div class="mdui-typo-title mdui-p-t-1">
-                    擦玻璃
+                    {$cardData['introduction']}
                 </div>
             </div>
         </div>
@@ -51,7 +49,7 @@
             </div>
             <div class="mdui-typo mdui-p-x-1">
                 <div class="mdui-p-a-2">
-                    加载中
+                    {$cardData['content']}
                 </div>
             </div>
         </div>
@@ -67,6 +65,8 @@
                 <a href="#" class="">交流</a>
             </div>
             <div class="mdui-typo mdui-p-x-1 mdui-p-b-2">
+                {if $cardsCommentsListData}
+                {volist name="cardsCommentsListData" id="data"}
                 <div class="mdui-m-a-2">
 
                     <div class="mdui-card-header-avatar">
@@ -75,13 +75,14 @@
                     </div>
 
                     <div class="mdui-card-header-title mdui-text-color-theme-accent mdui-p-t-1">
-                        <a href="http://chizg.cn" rel="external nofollow">评论名</a>
+                        <a href="http://chizg.cn" rel="external nofollow">{$data.name}</a>
                     </div>
 
-                    <div class="mdui-card-header-subtitle mdui-p-t-1" style="font-size: 8px;">评论日期</div>
+                    <div class="mdui-card-header-subtitle mdui-p-t-1" style="font-size: 8px;">{$data.id}# {$data.date}
+                    </div>
 
                     <div style="margin-left: 52px;font-size: 16px;" class="mdui-m-b-1">
-                        评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容
+                        {$data.content}
                     </div>
 
                     <div class="mdui-text-right">
@@ -89,36 +90,23 @@
                     </div>
                     <div class="mdui-divider"></div>
                 </div>
-
-                <div class="mdui-m-a-2">
-
-                    <div class="mdui-card-header-avatar">
-                        <img class="avatar"
-                            src="https://gravatar.loli.net/avatar/3639f696540acb8e37e4e6db9c4a8b6c?s=40&amp;d=">
-                    </div>
-
-                    <div class="mdui-card-header-title mdui-text-color-theme-accent mdui-p-t-1">
-                        <a href="http://chizg.cn" rel="external nofollow">评论名</a>
-                    </div>
-
-                    <div class="mdui-card-header-subtitle mdui-p-t-1" style="font-size: 8px;">评论日期</div>
-
-                    <div style="margin-left: 52px;font-size: 16px;" class="mdui-m-b-1">
-                        评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容
-                    </div>
-
-                    <div class="mdui-text-right">
-                        <a class="mdui-typo-caption" style="cursor:pointer;">回复</a>
-                    </div>
-                    <div class="mdui-divider"></div>
+                {/volist}
+                <!-- 分页按钮组件 -->
+                <div class="mdui-p-t-2 mdui-text-center">
+                    <div style="display: none;">{$cardsCommentsListRaw|raw}</div>
+                    <button id="pageFirst" type="button" class="mdui-btn mdui-color-theme-accent">
+                        <i class="mdui-icon material-icons ">first_page</i>
+                    </button>
+                    <button id="pageLast" type="button" class="mdui-btn mdui-color-theme-accent">
+                        <i class="mdui-icon material-icons">last_page</i>
+                    </button>
                 </div>
-
-                <div class="mdui-p-x-2">
-                    <label class="mdui-textfield-label mdui-shadow-0">商品评价：</label>
-                    <textarea style="width: 94%;resize: none;" rows="4" placeholder="热情回复，文明用语"></textarea>
-                    <button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple mdui-btn-raised">评
-                        价</button>
+                {else}
+                <!-- 卡片的内容 -->
+                <div class="mdui-p-y-2 mdui-p-x-2">
+                    <div class="mdui-typo-subheading-opacity mdui-text-center">还没有评论哦~</div>
                 </div>
+                {/if}
             </div>
         </div>
 
@@ -126,7 +114,8 @@
 </div>
 
 <div style="z-index: 99999; display: flex; justify-content: flex-end;" class="mdui-bottom-nav mdui-color-theme">
-    <button style="height: 130%; width: 30%; font-size: 18px; font-weight:900;" class="mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple mdui-shadow-0">
+    <button onclick="jumpUrl('/index/cards/buy?id={$cardData['id']}', 100)" style="height: 130%; width: 30%; font-size: 18px; font-weight:900;"
+        class="mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple mdui-shadow-0">
         <i class="mdui-icon material-icons">shopping_cart</i> 下 单
     </button>
 </div>

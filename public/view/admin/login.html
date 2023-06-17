@@ -47,7 +47,7 @@
                     <div class="mdui-textfield mdui-textfield-floating-label">
                         <i class="mdui-icon material-icons">&#xe853;</i>
                         <label class="mdui-textfield-label">用户名</label>
-                        <input class="mdui-textfield-input" type="text" id="userName" />
+                        <input class="mdui-textfield-input" type="text" id="name" />
                     </div>
                     <!--"密码"输入框-->
                     <div class="mdui-textfield mdui-textfield-floating-label">
@@ -92,7 +92,7 @@
             //提交
             $('#submitLogin').click(function () {
                 data = {
-                    'userName': $('#userName').val(),
+                    'name': $('#name').val(),
                     'password': $('#password').val(),
                 };
                 //提交数据

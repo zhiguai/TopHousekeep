@@ -38,7 +38,7 @@ class Auth
         }
 
         //获取数据对象
-        $result = Db::table('user')
+        $result = Db::table('admin')
             ->where('name', $name)
             ->where('password', sha1($password));
 
@@ -69,7 +69,7 @@ class Auth
         }
 
         //获取数据对象
-        $result = Db::table('user')
+        $result = Db::table('admin')
             ->where('id', $adminData['id']);
 
         //整理数据

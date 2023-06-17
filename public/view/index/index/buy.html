@@ -1,0 +1,77 @@
+{include file="index/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="false" layer=2 class="mdui-container-full">
+
+    <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+        style="margin: 6px;">
+        <i class="mdui-icon material-icons">arrow_back</i>
+    </button>
+    <div class="mdui-card
+                mdui-shadow-0">
+
+
+        <div class="mdui-p-y-3
+                mdui-p-x-3">
+            <div style="display: flex;">
+                <img style="width: 80px; height: 80px; background-color:#bcbec0;" class="mdui-img-rounded"
+                    src="{$cardData['img']}" />
+
+                <div style="flex-grow: 1;" class="mdui-m-t-1 mdui-m-l-1">
+                    <div class="mdui-typo-body-2">
+                        {$cardData['introduction']}
+                    </div>
+                    <div class="mdui-typo-caption-opacity mdui-p-t-1">我是下单日期</div>
+                </div>
+                <div style="display: inline-block; float: right;" class="mdui-m-t-1 mdui-m-l-1">
+                    <span style="color: #ff5252!important;">
+                        ￥{$cardData['price']}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mdui-typo">
+                <hr />
+            </div>
+            <div class="mdui-p-t-1">
+                <!-- 固定标签 -->
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">上门日期</label>
+                    <input class="mdui-textfield-input" type="date"/>
+                </div>
+                <!-- 固定标签 -->
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">位置</label>
+                    <textarea class="mdui-textfield-input"></textarea>
+                </div>
+                <!-- 固定标签 -->
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">备注</label>
+                    <textarea class="mdui-textfield-input" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="z-index: 99999; display: flex; justify-content: flex-end;" class="mdui-bottom-nav mdui-color-theme">
+        <button onclick="jumpUrl('/index/user/buy?id=0', 100)" style="height: 130%; width: 30%; font-size: 18px; font-weight:900;"
+            class="mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple mdui-shadow-0">
+            确 认
+        </button>
+    </div>
+
+</div>
+
+
+{include file="index/public/footer"}
+
+<script>
+    $(function () {
+
+    })
+</script>
+
+</body>
+
+</html>
