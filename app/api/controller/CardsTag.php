@@ -15,11 +15,12 @@ class CardsTag
     public function add()
     {
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
+        $icon = Request::param('icon');
         $name = Request::param('name');
         $tip = Request::param('tip');
         if (mb_strlen($name, 'utf-8') > 8 || mb_strlen($tip, 'utf-8') > 64) {
@@ -31,7 +32,7 @@ class CardsTag
         //获取数据库对象
         $result = Db::table('cards_tag');
         //整理数据
-        $data = ['name' => $name, 'tip' => $tip, 'status' => $status, 'date' => $time];
+        $data = ['name' => $name, 'tip' => $tip, 'status' => $status, 'date' => $time, 'icon' => $icon];
         //写入失败返回
         if (!$result->insert($data)) {
             return Common::create(['CardsTag' => '写入失败'], '添加失败', 400);
@@ -44,11 +45,12 @@ class CardsTag
     public function edit()
     {
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
+        $icon = Request::param('icon');
         $id = Request::param('id');
         $name = Request::param('name');
         $tip = Request::param('tip');
@@ -77,7 +79,7 @@ class CardsTag
         }
 
         //整理数据
-        $data = ['name' => $name, 'tip' => $tip, 'status' => $status];
+        $data = ['name' => $name, 'tip' => $tip, 'status' => $status, 'icon' => $icon, 'date' => $time];
         //编辑失败返回
         if (!$result->update($data)) {
             return Common::create(['CardsTag' => '更新失败'], '编辑失败', 400);
@@ -91,9 +93,9 @@ class CardsTag
     {
 
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
         //获取数据

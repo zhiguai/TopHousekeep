@@ -16,6 +16,7 @@
                 <tr>
                     <th>ID</th>
                     <th>CID</th>
+                    <th>UID</th>
                     <th>状态</th>
                     <th>昵称</th>
                     <th>内容</th>
@@ -29,25 +30,24 @@
                 <tr>
                     <td>{$data.id}</td>
                     <td>{$data.cid}</td>
-                    <td value="{$data.state}">
+                    <td>{$data.uid}</td>
+                    <td value="{$data.ban}">
                         <div class="mdui-chip">
-                            {if $data.state == 0}
-                            <span class="mdui-chip-title">正常</span>
+                            {if $data.ban == false}
+                            <span class="mdui-chip-title">false</span>
                             {/if}
-                            {if $data.state == 1}
-                            <span class="mdui-chip-title">封禁</span>
+                            {if $data.ban == true}
+                            <span class="mdui-chip-title">true</span>
                             {/if}
                         </div>
                     </td>
-
                     <td>{$data.name}</td>
                     <td>
-                        <input class="mdui-textfield-input" style="width:unset"
-                            mdui-tooltip="{content: '{$data.content}'}" type="text" value="{$data.content}"
-                            readonly="true" />
+                        <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                            value="{$data.content}" readonly="true" />
                     </td>
                     <td>{$data.ip}</td>
-                    <td>{$data.time}</td>
+                    <td>{$data.date}</td>
                     <td>
                         <button class="js-Btn-Edit mdui-btn mdui-btn-icon" mdui-dialog="{target: '#dialogedit'}">
                             <i class="mdui-icon material-icons">edit</i>
@@ -75,9 +75,9 @@
                 </div>
                 <div class="mdui-col-xs-3 mdui-col-md-2">
                     <label class="mdui-textfield-label mdui-m-t-2">状态</label>
-                    <select class="mdui-select" id="editCommentsDataState">
-                        <option value="0">正常</option>
-                        <option value="1">封禁</option>
+                    <select class="mdui-select" id="editCommentsDataBan">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
                     </select>
                 </div>
             </div>
@@ -130,9 +130,9 @@
         //按钮-初始化-编辑
         $('.js-Btn-Edit').click(function () {
             var thisObj = $(this).parent().siblings('td');
-            $('#editCommentsDataName').val(thisObj.eq(3).html());
-            $('#editCommentsDataContent').val(thisObj.eq(4).children().val());
-            $('#editCommentsDataState').val(thisObj.eq(2).attr('value'));
+            $('#editCommentsDataName').val(thisObj.eq(4).html());
+            $('#editCommentsDataContent').val(thisObj.eq(5).children().val());
+            $('#editCommentsDataBan').val(thisObj.eq(3).attr('value'));
             $('#btnEditComments').val(thisObj.eq(0).html());
         });
 
@@ -143,7 +143,7 @@
                 'id': $('#btnEditComments').val(),
                 'name': $('#editCommentsDataName').val(),
                 'content': $('#editCommentsDataContent').val(),
-                'state': $('#editCommentsDataState').val()
+                'ban': $('#editCommentsDataBan').val()
             };
             var result = apiAjax0(data, apiCardsCommentsEdit, 'POST');
             if (result) {

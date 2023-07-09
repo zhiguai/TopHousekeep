@@ -28,12 +28,12 @@ class Common extends Facade
     protected static function systemVer()
     {
         return [
-            'Name' => 'LoveCards',
-            'Url' => '//lovecards.cn',
-            'VerS' => '2.0.0',
+            'Name' => '完美家政',
+            'Url' => '#',
+            'VerS' => '1.0.0',
             'Ver' => '1.0',
-            'GithubUrl' => '//github.com/zhiguai/CZ-LoveCards',
-            'QGroupUrl' => '//jq.qq.com/?_wv=1027&k=qM8f2RMg',
+            'GithubUrl' => '#',
+            'QGroupUrl' => '#',
         ];
     }
 
@@ -328,7 +328,7 @@ class Common extends Facade
         //整理数据
         $uuid = Request::param('user_uuid');
         if (empty($uuid)) {
-            return array(400, '缺少uuid');
+            return array(400, '缺少user_uuid');
         }
 
         //查询数据
@@ -348,6 +348,17 @@ class Common extends Facade
         }
         return array(401, '当前uuid已失效请重新登入');
     }
+
+    //生成订单号
+    protected static function generateOrderNumber() {
+        $prefix = "ORD"; // 前缀
+        $date = date("YmdHis"); // 当前时间，格式为年月日时分秒
+        $random = mt_rand(1000, 9999); // 随机数，范围为 1000 到 9999
+    
+        $orderNumber = $prefix . $date . $random;
+        return $orderNumber;
+    }
+
 }
 
 class File extends Facade

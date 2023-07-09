@@ -1,0 +1,128 @@
+{include file="test/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="false" layer=2 class="mdui-container-full">
+
+    <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+        style="margin: 6px;">
+        <i class="mdui-icon material-icons">arrow_back</i>
+    </button>
+    <div class="mdui-card
+                mdui-shadow-0">
+
+        <div class="mdui-p-y-3
+                mdui-p-x-3">
+            <div style="display: flex;">
+                <img style="width: 80px; height: 80px; background-color:#bcbec0;" class="mdui-img-rounded"
+                    src="{$cardData['img']}" />
+
+                <div style="flex-grow: 1;" class="mdui-m-t-1 mdui-m-l-1">
+                    <div class="mdui-typo-body-2">
+                        {$cardData['introduction']}
+                    </div>
+                    <div class="mdui-typo-caption-opacity mdui-p-t-1">
+                        {$cardData['content']}
+                    </div>
+                </div>
+                <div style="display: inline-block; float: right;" class="mdui-m-t-1 mdui-m-l-1">
+                    <span style="color: #ff5252!important;">
+                        ￥{$cardData['price']}
+                    </span>
+                </div>
+            </div>
+
+            <div class="mdui-typo">
+                <hr />
+            </div>
+            <div class="mdui-p-t-1">
+                <!-- 固定标签 -->
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">上门时间</label>
+                    <input id="service_date" class="mdui-textfield-input" type="datetime-local" />
+                </div>
+                <!-- 固定标签 -->
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">位置</label>
+                    <div id="distpicker">
+                        <select class="mdui-select mdui-m-t-1" style="width: 100%;"></select>
+                        <select class="mdui-select mdui-m-t-1" style="width: 100%;"></select>
+                        <select class="mdui-select mdui-m-t-1" style="width: 100%;"></select>
+                    </div>
+                    <span class="mdui-float-right mdui-m-t-2 mdui-typo-caption">自动获取</span>
+                </div>
+                <!-- 固定标签 -->
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">备注</label>
+                    <textarea id="note" class="mdui-textfield-input" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="z-index: 99999; display: flex; justify-content: flex-end;" class="mdui-bottom-nav mdui-color-theme">
+        <button id="submitAdd" style="height: 130%; width: 30%; font-size: 18px; font-weight:900;"
+            class="mdui-btn mdui-btn-dense mdui-color-theme-accent mdui-ripple mdui-shadow-0">
+            确 认
+        </button>
+    </div>
+
+</div>
+
+
+{include file="test/public/footer"}
+<script src="https://cdn.bootcdn.net/ajax/libs/distpicker/2.0.8/distpicker.min.js"></script>
+<script>
+    //明天此时
+    function getCurrentDateTime() {
+        var now = new Date();
+
+        var year = now.getFullYear();
+        var month = String(now.getMonth() + 1).padStart(2, '0');
+        var day = String(now.getDate()+1).padStart(2, '0');
+        var hours = String(now.getHours()).padStart(2, '0');
+        var minutes = String(now.getMinutes()).padStart(2, '0');
+        var seconds = String(now.getSeconds()).padStart(2, '0');
+
+        var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+        return formattedDateTime;
+    }
+
+    $(function () {
+        //三级选择器
+        $("#distpicker").distpicker({
+            province: '河南省',
+            city: '郑州市',
+            district: '巩义市'
+        });
+
+        //设置默认时间
+        $('#service_date').val(getCurrentDateTime());
+        //console.log(getCurrentDateTime());
+
+        //提交
+        $('#submitAdd').click(function () {
+            data = {
+                'user_uuid': $.cookie('user_uuid'),
+                'cid': "{$cardData['id']}",
+                'address': $($('#distpicker').children()[0]).val() + ' /' + $($('#distpicker').children()[1]).val() + '/' + $($('#distpicker').children()[2]).val(),
+                'note': $('#note').val(),
+                'service_date': $('#service_date').val()
+            };
+            var result = apiAjax0(data, apiUrlOrderAdd, 'POST');
+            if (result) {
+                mdui.snackbar({
+                    message: '添加成功',
+                    position: 'left-top'
+                });
+                jumpUrl('/index/user/orders', '100');
+                return;
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>

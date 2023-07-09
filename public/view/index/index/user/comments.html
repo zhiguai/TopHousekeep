@@ -1,0 +1,62 @@
+{include file="index/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="false" layer=0 class="mdui-container-full">
+
+    <button onclick="jumpUrl('/index/user',100)" class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+        style="margin: 6px;">
+        <i class="mdui-icon material-icons">arrow_back</i>
+    </button>
+
+    {if $commentsListData != []}
+    {volist name='commentsListData' id='data'}
+    <div class="mdui-card
+    mdui-p-y-3
+    mdui-p-x-3 
+    mdui-m-b-2
+    mdui-shadow-0">
+        <div style="display: flex;" onclick="jumpUrl('/index/user/order/number/{$data.number}')">
+            <div class="css-order-item">
+                <img class="mdui-img-rounded" src="{$data.b_img}" />
+            </div>
+
+            <div style="flex-grow: 1;" class="mdui-m-t-1 mdui-m-l-1">
+                <div class="mdui-typo-body-2">
+                    {$data.b_introduction}
+                </div>
+                <div class="mdui-typo-caption-opacity mdui-p-t-1">单号：{$data.number}</div>
+            </div>
+            <div style="display: inline-block; float: right;" class="mdui-m-t-1 mdui-m-l-1">
+                <span style="color: #ff5252!important;">
+                    ￥{$data.b_price} </span>
+            </div>
+        </div>
+
+        <div class="mdui-typo">
+            <hr>
+        </div>
+
+        <div class="mdui-typo-body-2 mdui-p-t-1">
+            我的评价：
+        </div>
+        <div class="mdui-typo-caption mdui-p-t-1">
+            {$data.content}
+        </div>
+        <div class="mdui-typo">
+            <hr>
+        </div>
+        <div class="mdui-typo-caption-opacity mdui-p-t-1">
+            评价日期：{$data.date} </div>
+    </div>
+    {/volist}
+    {else}
+    <div class="mdui-typo-title-opacity mdui-text-center" style="padding-top: 148px">还没有评价哦~</div>
+    {/if}
+
+</div>
+
+{include file="index/public/footer"}
+
+</body>
+
+</html>

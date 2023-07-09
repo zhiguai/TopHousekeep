@@ -1,0 +1,148 @@
+{include file="test/public/header"}
+
+<style>
+    .mdui-list {
+        margin: 0;
+        padding: 0 0;
+        list-style: none;
+        background-color: transparent;
+    }
+</style>
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="4" layer=0 class="mdui-container-full">
+
+
+    <div style="display: flex;" class="mdui-card
+                mdui-color-theme
+                mdui-p-y-3
+                mdui-p-x-3
+                mdui-shadow-0">
+
+        <img style="width: 100px;height: 100px;" class="mdui-img-circle mdui-shadow-1 avatar"
+            src="{$userData['avatar']}" />
+
+        <div class="mdui-m-t-3 mdui-m-l-3">
+            <div class="mdui-typo-title-opacity">{$userData['name']}</div>
+            <div class="mdui-typo-caption-opacity mdui-p-t-1">Email：{$userData['email']}</div>
+        </div>
+    </div>
+
+    <div class="mdui-p-t-1">
+        <div class="mdui-card mdui-shadow-0">
+            <div onclick="jumpUrl('/index/user/orders/chooseStatus/0',100)" class="mdui-p-t-1 mdui-p-x-2">
+                <span class="mdui-typo-subheading-opacity">我的订单</span>
+                <span class="mdui-typo-caption-opacity" style="float: right;align-items: center;padding-top: 5px;">
+                    查看全部订单<i class="mdui-icon material-icons"
+                        style="font-size: 12px;padding-bottom: 2.5px;">chevron_right</i>
+                </span>
+            </div>
+            <div class="mdui-typo">
+                <hr />
+            </div>
+            <div class="mdui-row-xs-4 mdui-p-x-2 mdui-p-t-1">
+                <div onclick="jumpUrl('/index/user/orders/chooseStatus/1')" class="mdui-col mdui-text-center mdui-m-b-2">
+                    <button class="mdui-fab mdui-ripple mdui-shadow-0">
+                        <i class="mdui-icon material-icons">pause_circle_outline</i>
+                    </button>
+                    <div class="mdui-typo-body-1-opacity" style="padding-top: 3.3333px;">待受理</div>
+                </div>
+                <div onclick="jumpUrl('/index/user/orders/chooseStatus/2')" class="mdui-col mdui-text-center mdui-m-b-2">
+                    <button class="mdui-fab mdui-ripple mdui-shadow-0">
+                        <i class="mdui-icon material-icons">call_end</i>
+                    </button>
+                    <div class="mdui-typo-body-1-opacity" style="padding-top: 3.3333px;">待服务</div>
+                </div>
+                <div onclick="jumpUrl('/index/user/orders/chooseStatus/3')" class="mdui-col mdui-text-center mdui-m-b-2">
+                    <button class="mdui-fab mdui-ripple mdui-shadow-0">
+                        <i class="mdui-icon material-icons">touch_app</i>
+                    </button>
+                    <div class="mdui-typo-body-1-opacity" style="padding-top: 3.3333px;">待确认</div>
+                </div>
+                <div onclick="jumpUrl('/index/user/orders/chooseStatus/4')" class="mdui-col mdui-text-center mdui-m-b-2">
+                    <button class="mdui-fab mdui-ripple mdui-shadow-0">
+                        <i class="mdui-icon material-icons">comment</i>
+                    </button>
+                    <div class="mdui-typo-body-1-opacity" style="padding-top: 3.3333px;">已结束</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mdui-p-t-1">
+        <div class="mdui-card
+                mdui-shadow-0">
+            <ul class="mdui-list">
+                <li onclick="jumpUrl('/index/user/edit',0)" class="mdui-list-item mdui-ripple">
+                    <div class="mdui-list-item-content mdui-typo-subheading-opacity">个人信息</div>
+                    <i class="mdui-list-item-icon mdui-icon material-icons">account_box</i>
+                </li>
+                <li onclick="jumpUrl('/index/user/comments',0)" class="mdui-list-item mdui-ripple">
+                    <div class="mdui-list-item-content mdui-typo-subheading-opacity">我的评价</div>
+                    <i class="mdui-list-item-icon mdui-icon material-icons">comment</i>
+                </li>
+                <li onclick="jumpUrl('/index/user/goods',0)" class="mdui-list-item mdui-ripple">
+                    <div class="mdui-list-item-content mdui-typo-subheading-opacity">我的推荐</div>
+                    <i class="mdui-list-item-icon mdui-icon material-icons">thumb_up</i>
+                </li>
+                <li class="mdui-list-item mdui-ripple">
+                    <div class="mdui-list-item-content mdui-typo-subheading-opacity">我的收藏</div>
+                    <i class="mdui-list-item-icon mdui-icon material-icons">collections_bookmark</i>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mdui-p-t-1">
+        <div class="mdui-card
+                mdui-shadow-0">
+            <ul class="mdui-list">
+                <li class="mdui-list-item mdui-ripple">
+                    <div class="mdui-list-item-content mdui-typo-subheading-opacity">帮助</div>
+                    <i class="mdui-list-item-icon mdui-icon material-icons">help</i>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mdui-p-t-3">
+        <button id="submitLogout" style="height: 48px;" type="button"
+            class="mdui-btn-block mdui-color-theme-accent mdui-btn mdui-ripple">
+            退出登录
+        </button>
+    </div>
+
+</div>
+
+
+{include file="test/public/footer"}
+
+<script>
+    $(function () {
+        //提交
+        $('#submitLogout').click(function () {
+            data = {
+                'user_uuid': $.cookie('user_uuid')
+            };
+            //提交数据
+            result = apiAjax0(data, apiUrlUserAuthLogout, 'POST');
+            if (result) {
+                //成功
+                mdui.snackbar({
+                    message: '退出成功',
+                    position: 'left-top'
+                });
+                //附加功能
+                $.removeCookie('user_uuid', { path: '/' });
+                //跳转
+                jumpUrl('/index/user/login');
+                return;
+            }
+        })
+    })
+</script>
+
+</body>
+
+</html>

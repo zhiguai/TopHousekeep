@@ -183,9 +183,9 @@
 <script src="{__A-assets__}/cardsEdit.js"></script>
 <script>
     //初始化-Tag组件
-    {if $idCardData['tag']}
-    InitialChooseTagAdd(JSON.parse('{$idCardData['tag']|raw}'));
-    {/if}
+    /*{if $idCardData['tag']}*/
+    InitialChooseTagAdd(JSON.parse('{$idCardData["tag"]|raw}'));
+    /*{/if}*/
 
     $(function () {
         //按钮-请求-添加
@@ -200,7 +200,7 @@
 
             data = {
                 'uuid': $.cookie('uuid'),
-                'id': {$idCardData['id']},
+                'id': "{$idCardData['id']}",
                 'top': $('#top').val(),
                 'ban': $('#ban').val(),
                 'status': $('#status').val(),

@@ -1,0 +1,50 @@
+{include file="test/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="false" class="mdui-container">
+
+    <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+        style="margin: 6px;">
+        <i class="mdui-icon material-icons">arrow_back</i>
+    </button>
+
+    <!-- 主体组件 -->
+    <div class="mdui-p-t-1">
+
+        <div class="mdui-row-xs-2">
+            <!-- 卡片循环 -->
+            {include file="test/public/component-list-cards"}
+            <!-- 分享弹窗 -->
+            {include file="test/public/component-share"}
+        </div>
+    </div>
+
+    <!-- 分页按钮组件 -->
+    <div class="mdui-p-t-2 mdui-text-center">
+        <div style="display: none;">{$cardsListRaw|raw}</div>
+        <button id="pageFirst" type="button" class="mdui-btn mdui-color-theme-accent">
+            <i class="mdui-icon material-icons ">first_page</i>
+        </button>
+        <button id="pageLast" type="button" class="mdui-btn mdui-color-theme-accent">
+            <i class="mdui-icon material-icons">last_page</i>
+        </button>
+    </div>
+
+</div>
+
+
+{include file="test/public/footer"}
+
+<script>
+    $(function () {
+        //初始化分页
+        pager();
+        //获取Tag数据
+        ViewCardsTag('{$cardsTagData|raw}');
+    })
+
+</script>
+
+</body>
+
+</html>

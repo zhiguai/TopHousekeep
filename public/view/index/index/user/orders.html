@@ -1,0 +1,130 @@
+{include file="index/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="false" layer=0 class="mdui-container-full">
+
+    <button onclick="jumpUrl('/index/user',100)" class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+        style="margin: 6px;">
+        <i class="mdui-icon material-icons">arrow_back</i>
+    </button>
+
+    {if $ordersListData != []}
+    {volist name='ordersListData' id='data'}
+    <div class="mdui-card
+                mdui-p-y-3
+                mdui-p-x-3 
+                mdui-m-b-2
+                mdui-shadow-0">
+        <div style="display: flex;" onclick="jumpUrl('/index/user/order/number/{$data.number}')">
+            <div class="css-order-item">
+                <img class="mdui-img-rounded" src="{$data.c_img}" />
+            </div>
+
+            <div style="flex-grow: 1;" class="mdui-m-t-1 mdui-m-l-1">
+                <div class="mdui-typo-body-2">
+                    {$data['c_introduction']}
+                </div>
+                <div class="mdui-typo-caption-opacity mdui-p-t-1">单号：{$data['number']}</div>
+            </div>
+            <div style="display: inline-block; float: right;" class="mdui-m-t-1 mdui-m-l-1">
+                <span style="color: #ff5252!important;">
+                    ￥{$data['price']}
+                </span>
+            </div>
+        </div>
+
+        <div class="mdui-typo">
+            <hr />
+        </div>
+        <div class="mdui-p-t-1">
+            <div class="mdui-chip" style="border-radius:6.6666%">
+                {if $data['status'] == 0}
+                <span class="mdui-chip-icon mdui-color-teal-100" style="border-radius:6.6666%">
+                    <i class="mdui-icon material-icons">looks_one</i>
+                </span>
+                <span class="mdui-chip-title">未受理</span>
+                {/if}
+                {if $data['status'] == 1}
+                <span class="mdui-chip-icon mdui-color-teal-200" style="border-radius:6.6666%">
+                    <i class="mdui-icon material-icons">looks_two</i>
+                </span>
+                <span class="mdui-chip-title">已接受</span>
+                {/if}
+                {if $data['status'] == 2}
+                <span class="mdui-chip-icon mdui-color-teal-300" style="border-radius:6.6666%">
+                    <i class="mdui-icon material-icons">looks_3</i>
+                </span>
+                <span class="mdui-chip-title">进行中</span>
+                {/if}
+                {if $data['status'] == 3}
+                <span class="mdui-chip-icon mdui-color-teal-400" style="border-radius:6.6666%">
+                    <i class="mdui-icon material-icons">looks_4</i>
+                </span>
+                <span class="mdui-chip-title">已完成</span>
+                {/if}
+                {if $data['status'] == 4}
+                <span class="mdui-chip-icon mdui-color-teal-500" style="border-radius:6.6666%">
+                    <i class="mdui-icon material-icons">looks_5</i>
+                </span>
+                <span class="mdui-chip-title">结束</span>
+                {/if}
+            </div>
+            {if $data['status'] == 4}
+            <button onclick="jumpUrl('/index/user/order/number/{$data.number}')"
+                class="mdui-btn mdui-color-teal mdui-ripple mdui-btn-dense mdui-float-right">
+                <i class="mdui-icon mdui-icon-left material-icons">comment</i>评价
+            </button>
+            {/if}
+            {if $data['status'] == 3}
+            <button value="{$data['number']}"
+                class="js-Btn-Update-OrderEnd mdui-btn mdui-color-theme-accent mdui-ripple mdui-btn-dense mdui-float-right">
+                结束订单
+            </button>
+            {/if}
+            {if $data['status'] == 0 || $data['status'] == 1}
+            <button onclick="jumpUrl('/index/user/order/number/{$data.number}')"
+                class="mdui-btn mdui-color-teal mdui-ripple mdui-btn-dense mdui-float-right">查看详情</button>
+            {/if}
+        </div>
+
+    </div>
+    {/volist}
+    {else}
+    <div class="mdui-typo-title-opacity mdui-text-center" style="padding-top: 148px">还没有订单唉~</div>
+    {/if}
+
+</div>
+
+<div id="SecBottomNav" class="mdui-bottom-nav mdui-color-theme">
+    <a onclick="jumpUrl('/index/user/orders/chooseStatus/1')" class="mdui-ripple">待受理</a>
+    <a onclick="jumpUrl('/index/user/orders/chooseStatus/2')" class="mdui-ripple">待服务</a>
+    <a onclick="jumpUrl('/index/user/orders/chooseStatus/3')" class="mdui-ripple">待确认</a>
+    <a onclick="jumpUrl('/index/user/orders/chooseStatus/4')" class="mdui-ripple">已结束</a>
+    <a onclick="jumpUrl('/index/user/orders/chooseStatus/0')" class="mdui-ripple">全部</a>
+</div>
+
+{include file="index/public/footer"}
+
+<script>
+    $(function () {
+        $($('#SecBottomNav').children()[Number('{$chooseStatus}') - 1]).attr('class', 'mdui-ripple mdui-bottom-nav-active');
+    })
+    //点赞
+    $('.js-Btn-Update-OrderEnd').click(function () {
+        data = {
+            'user_uuid': $.cookie('user_uuid'),
+            'number': $(this).val()
+        };
+        //提交数据
+        var result = apiAjax0(data, apiUrlOrderEnd, 'POST');
+        if (result) {
+            //成功
+            $.cookie('msg', '订单结束成功，请前往评价', { path: '/' });
+            jumpUrl('', 100);
+        }
+    });
+</script>
+
+</body>
+
+</html>

@@ -69,14 +69,18 @@ class Cards
         //判断是否存在图片并获取图集
         if ($idCardData['img']) {
             //获取IMG数据
-            $result = Db::table('img')->where('pid', $id)->select()->toArray();
+            $result = Db::table('img')
+                ->where('pid', $id)
+                ->order('id')
+                ->select()
+                ->toArray();
             View::assign('idImgData', $result);
         } else {
             View::assign('idImgData', false);
         }
 
         //获取标签数据
-        $result = Db::table('cards_tag')->where('status', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'true')->select()->toArray();
         View::assign('cardsTagData', $result);
 
         //基础变量
@@ -100,7 +104,7 @@ class Cards
         }
 
         //获取标签数据
-        $result = Db::table('cards_tag')->where('status', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'true')->select()->toArray();
         View::assign('cardsTagData', $result);
 
         //基础变量

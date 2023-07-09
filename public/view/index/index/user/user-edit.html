@@ -1,0 +1,89 @@
+{include file="index/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="false" layer=2 class="mdui-container-full">
+
+    <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+        style="margin: 6px;">
+        <i class="mdui-icon material-icons">arrow_back</i>
+    </button>
+
+    <div class="mdui-card mdui-shadow-0">
+        <div class="mdui-p-y-3 mdui-p-x-3">
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">用户名</label>
+                <textarea id="name" class="mdui-textfield-input">{$userData['name']}</textarea>
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">邮箱</label>
+                <textarea id="email" class="mdui-textfield-input">{$userData['email']}</textarea>
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">手机号</label>
+                <textarea id="phone" class="mdui-textfield-input">{$userData['phone']}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="mdui-card mdui-m-t-1 mdui-shadow-0">
+        <div class="mdui-p-y-3 mdui-p-x-3">
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">密码</label>
+                <input id="password" type="password" class="mdui-textfield-input">
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">重复密码</label>
+                <input id="repassword" type="password" class="mdui-textfield-input">
+            </div>
+            <div class="mdui-typo-caption-opacity mdui-text-color-theme-accent">注意：不填默认不修改</div>
+        </div>
+    </div>
+
+    <div class="mdui-p-t-3">
+        <button id="submitEdit" style="height: 48px;" type="button"
+            class="mdui-btn-block mdui-color-theme-accent mdui-btn mdui-ripple">
+            确认修改
+        </button>
+    </div>
+
+</div>
+
+
+{include file="index/public/footer"}
+
+<script>
+    $(function () {
+        //提交
+        $('#submitEdit').click(function () {
+            if (($('#password').val() != $('#repassword').val())) {
+                mdui.snackbar({
+                    message: '两次密码输入不同',
+                    position: 'left-top'
+                });
+                return;
+            }
+            data = {
+                'user_uuid': $.cookie('user_uuid'),
+                'uid': "{$userData['id']}",
+                'name': $('#name').val(),
+                'email': $('#email').val(),
+                'phone': $('#phone').val(),
+                'password': $('#password').val()
+                
+            };
+            var result = apiAjax0(data, apiUserEdit, 'POST');
+            if (result) {
+                mdui.snackbar({
+                    message: '编辑成功',
+                    position: 'left-top'
+                });
+                //jumpUrl('/index/user/orders', '100');
+                return;
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>

@@ -39,20 +39,21 @@ class Index
         $topListNum = 32; //每页个数
 
         //取Cards.top数据
-        $result = Db::table('cards')->where('status', 'false')->where('top', 'true')->order('id', 'desc')
+        $result = Db::table('cards')->where('status', 'true')->where('top', 'true')->order('id', 'desc')
             ->limit($topListNum)->select()->toArray();
         $listData = $result;
         //取Cards推荐数据
         //$result = Db::table('cards')->where('status', 0)->where('top', 0)->order(['good','comment'=>'desc'])
         //->limit($hotListNum)->select()->toArray();
-        $result = Db::query("select * from cards where top = 'false' and status = 'false' order by comments*0.3+good*0.7 desc limit 0," . $hotListNum);
+        $result = Db::query("select * from cards where top = 'false' and status = 'true' order by comments*0.3+good*0.7 desc limit 0," . $hotListNum);
         //合并到$listData数据
         $listData = array_merge($listData, $result);
 
         //取标签数据
-        $result = Db::table('cards_tag')->where('status', 0)->select()->toArray();
+        $result = Db::table('cards_tag')->where('status', 'true')->limit(8)->select()->toArray();
         $cardsTagData = $result;
         View::assign('cardsTagData', json_encode($cardsTagData));
+        View::assign('cardsTagData8', $cardsTagData);
 
         //取Good状态合并到$listData数据
         for ($i = 0; $i < sizeof($listData); $i++) {
@@ -77,7 +78,7 @@ class Index
             'TemplateDirectory' => '/view/index/' . $this->TemplateDirectory . '/assets',
             'systemVer' => Common::systemVer(),
             'systemData' => Common::systemData(),
-            'viewTitle'  => '推荐',
+            'viewTitle'  => Common::systemData()['siteTitle'],
             'viewDescription' => false,
             'viewKeywords' => false
         ]);

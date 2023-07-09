@@ -30,7 +30,7 @@
                             class="mdui-list-item-avatar mdui-icon material-icons mdui-color-blue mdui-text-color-white">note</i>
                         <div class="mdui-list-item-content">
                             <div class="mdui-list-item-title">{$dataNum['cards']}</div>
-                            <div class="mdui-list-item-text">卡片总数</div>
+                            <div class="mdui-list-item-text">订单总数</div>
                         </div>
                     </li>
                     <li class="mdui-list-item mdui-ripple">
@@ -38,7 +38,7 @@
                             class="mdui-list-item-avatar mdui-icon material-icons mdui-color-yellow-600 mdui-text-color-white">insert_comment</i>
                         <div class="mdui-list-item-content">
                             <div class="mdui-list-item-title">{$dataNum['cardsComments']}</div>
-                            <div class="mdui-list-item-text">评论总数</div>
+                            <div class="mdui-list-item-text">评价总数</div>
                         </div>
                     </li>
                     <li class="mdui-list-item mdui-ripple">
@@ -46,7 +46,7 @@
                             class="mdui-list-item-avatar mdui-icon material-icons mdui-color-red-600 mdui-text-color-white">favorite</i>
                         <div class="mdui-list-item-content">
                             <div class="mdui-list-item-title">{$dataNum['good']}</div>
-                            <div class="mdui-list-item-text">点赞总数</div>
+                            <div class="mdui-list-item-text">用户总数</div>
                         </div>
                     </li>
                 </ul>
@@ -54,12 +54,193 @@
             </div>
         </div>
 
-        <div class="mdui-col-xs-12 mdui-col-sm-4 mdui-p-t-2">
+        <div class="mdui-col-xs-12 mdui-col-sm-9 mdui-p-t-2">
+            <div class="mdui-card">
+                <div class="mdui-tab" mdui-tab>
+                    <a href="#example1-tab1" class="mdui-ripple">今日新增订单</a>
+                    <a href="#example1-tab2" class="mdui-ripple">未受理订单</a>
+                    <a href="#example1-tab3" class="mdui-ripple">进行中订单</a>
+                </div>
+            </div>
+
+            <div class="mdui-table-fluid">
+                <table class="mdui-table mdui-table-hoverable mdui-typo">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>CID</th>
+                            <th>订单号</th>
+                            <th>封禁状态</th>
+                            <th>订单状态</th>
+                            <th>实付金额(￥)</th>
+                            <th>地址</th>
+                            <th>备注</th>
+                            <th>服务日期</th>
+                            <th>创建日期</th>
+                            <th>IP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="example1-tab1">
+                        {volist name='orderData0' id='data'}
+                        <tr onclick="jumpUrl('/admin/User/Order')">
+                            <td>{$data.id}</td>
+                            <td>{$data.cid}</td>
+                            <td>{$data.number}</td>
+                            <td value="{$data.ban}">
+                                <div class="mdui-chip">
+                                    {if $data.ban == 'false'}
+                                    <span class="mdui-chip-title">false</span>
+                                    {/if}
+                                    {if $data.ban == 'true'}
+                                    <span class="mdui-chip-title">true</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td value="{$data.status}">
+                                <div class="mdui-chip">
+                                    {if $data.status == 0}
+                                    <span class="mdui-chip-title">未受理</span>
+                                    {/if}
+                                    {if $data.status == 1}
+                                    <span class="mdui-chip-title">已受理</span>
+                                    {/if}
+                                    {if $data.status == 2}
+                                    <span class="mdui-chip-title">进行中</span>
+                                    {/if}
+                                    {if $data.status == 3}
+                                    <span class="mdui-chip-title">已完成</span>
+                                    {/if}
+                                    {if $data.status == 4}
+                                    <span class="mdui-chip-title">订单结束</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td>{$data.price}</td>
+                            <td>
+                                <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                                    value="{$data.address}" readonly="true" />
+                            </td>
+                            <td>
+                                <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                                    value="{$data.note}" readonly="true" />
+                            </td>
+                            <td>{$data.service_date}</td>
+                            <td>{$data.creat_date}</td>
+                            <td>{$data.ip}</td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                    <tbody id="example1-tab2">
+                        {volist name='orderData1' id='data'}
+                        <tr onclick="jumpUrl('/admin/User/Order')">
+                            <td>{$data.id}</td>
+                            <td>{$data.cid}</td>
+                            <td>{$data.number}</td>
+                            <td value="{$data.ban}">
+                                <div class="mdui-chip">
+                                    {if $data.ban == 'false'}
+                                    <span class="mdui-chip-title">false</span>
+                                    {/if}
+                                    {if $data.ban == 'true'}
+                                    <span class="mdui-chip-title">true</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td value="{$data.status}">
+                                <div class="mdui-chip">
+                                    {if $data.status == 0}
+                                    <span class="mdui-chip-title">未受理</span>
+                                    {/if}
+                                    {if $data.status == 1}
+                                    <span class="mdui-chip-title">已受理</span>
+                                    {/if}
+                                    {if $data.status == 2}
+                                    <span class="mdui-chip-title">进行中</span>
+                                    {/if}
+                                    {if $data.status == 3}
+                                    <span class="mdui-chip-title">已完成</span>
+                                    {/if}
+                                    {if $data.status == 4}
+                                    <span class="mdui-chip-title">订单结束</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td>{$data.price}</td>
+                            <td>
+                                <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                                    value="{$data.address}" readonly="true" />
+                            </td>
+                            <td>
+                                <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                                    value="{$data.note}" readonly="true" />
+                            </td>
+                            <td>{$data.service_date}</td>
+                            <td>{$data.creat_date}</td>
+                            <td>{$data.ip}</td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                    <tbody id="example1-tab3">
+                        {volist name='orderData2' id='data'}
+                        <tr onclick="jumpUrl('/admin/User/Order')">
+                            <td>{$data.id}</td>
+                            <td>{$data.cid}</td>
+                            <td>{$data.number}</td>
+                            <td value="{$data.ban}">
+                                <div class="mdui-chip">
+                                    {if $data.ban == 'false'}
+                                    <span class="mdui-chip-title">false</span>
+                                    {/if}
+                                    {if $data.ban == 'true'}
+                                    <span class="mdui-chip-title">true</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td value="{$data.status}">
+                                <div class="mdui-chip">
+                                    {if $data.status == 0}
+                                    <span class="mdui-chip-title">未受理</span>
+                                    {/if}
+                                    {if $data.status == 1}
+                                    <span class="mdui-chip-title">已受理</span>
+                                    {/if}
+                                    {if $data.status == 2}
+                                    <span class="mdui-chip-title">进行中</span>
+                                    {/if}
+                                    {if $data.status == 3}
+                                    <span class="mdui-chip-title">已完成</span>
+                                    {/if}
+                                    {if $data.status == 4}
+                                    <span class="mdui-chip-title">订单结束</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td>{$data.price}</td>
+                            <td>
+                                <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                                    value="{$data.address}" readonly="true" />
+                            </td>
+                            <td>
+                                <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                                    value="{$data.note}" readonly="true" />
+                            </td>
+                            <td>{$data.service_date}</td>
+                            <td>{$data.creat_date}</td>
+                            <td>{$data.ip}</td>
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="mdui-col-xs-12 mdui-col-sm-3 mdui-p-t-2">
             <div class="mdui-card">
                 <div class="mdui-p-a-2">
                     <div class="mdui-row">
                         <div class="mdui-col-xs-2 mdui-col-sm-3 mdui-text-center">
-                            <i class="css-icon iconfont icon-heart-pulse mdui-text-color-red-400"></i>
+                            <img src="{__A-assets__}/img/lcl.png" style="height: 50px;" alt="">
                         </div>
                         <div class="mdui-col-xs-10 mdui-col-sm-9 mdui-p-t-1 mdui-text-color-grey-800">
                             <div class="mdui-typo-title-opacity">{$systemVer['Name']}</div>
@@ -71,39 +252,35 @@
                 <ul class="mdui-list">
                     <a href="{$systemVer['Url']}" target="_blank">
                         <li class="mdui-list-item mdui-ripple">
-                            <i class="mdui-list-item-icon mdui-icon material-icons">move_to_inbox</i>
-                            <div class="mdui-list-item-content">项目主页</div>
-                        </li>
-                    </a>
-                    <a href="{$systemVer['Url']}" target="_blank">
-                        <li class="mdui-list-item mdui-ripple">
                             <i class="mdui-list-item-icon mdui-icon material-icons">send</i>
                             <div class="mdui-list-item-content">使用文档</div>
                         </li>
-                    </a><a href="{$systemVer['GithubUrl']}" target="_blank">
+                    </a>
+                    <a href="#" target="_blank">
                         <li class="mdui-list-item mdui-ripple">
-                            <i class="mdui-list-item-icon iconfont">&#xe885;</i>
-                            <div class="mdui-list-item-content">Github</div>
+                            <i class="mdui-list-item-icon mdui-icon material-icons">replay</i>
+                            <div class="mdui-list-item-content">清理缓存</div>
                         </li>
-                    </a><a href="{$systemVer['QGroupUrl']}" target="_blank">
+                    </a>
+                    <a href="#" target="_blank">
                         <li class="mdui-list-item mdui-ripple">
-                            <i class="mdui-list-item-icon iconfont">&#xe882;</i>
-                            <div class="mdui-list-item-content">QQ交流群</div>
+                            <i class="mdui-list-item-icon mdui-icon material-icons">cloud_upload</i>
+                            <div class="mdui-list-item-content">检查更新</div>
                         </li>
                     </a>
                 </ul>
             </div>
         </div>
 
-</div>
+    </div>
 
 
 </div>
 {include file="public/footer"}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+<script src="{__A-assets__}/chart-4.2.1/chart.umd.min.js"></script>
 <script>
     //图表数据传递
-    var dataChart = {$dataChart|raw};
+    var dataChart = jQuery.parseJSON('{$dataChart|raw}');
     //整理图表数据
     var chartLabelsDataX = new Array();
     var chartLabelsDataY = new Array();
@@ -131,12 +308,12 @@
                 backgroundColor: ['rgba(33,150,243,0.5)'],
                 borderColor: ['rgba(33,150,243,1)'],
             }, {
-                label: '评论',
+                label: '评价',
                 data: chartLabelsDataY[1],
                 backgroundColor: ['rgba(253,216,53,0.5)'],
                 borderColor: ['rgba(253,216,53,1)'],
             }, {
-                label: '点赞',
+                label: '用户',
                 data: chartLabelsDataY[2],
                 backgroundColor: ['rgba(229,57,35,0.5)'],
                 borderColor: ['rgba(229,57,35,1)'],

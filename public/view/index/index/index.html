@@ -15,13 +15,16 @@
             <div class="swiper" data-theme-color="var(#ff5252!important)">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
+                        <img src="{__A-assets__}/img/header/0.png" alt="">
                     </div>
                     <div class="swiper-slide">
-                        <img src="https://s1.ax1x.com/2022/04/03/qH9r8g.jpg" alt="">
+                        <img src="{__A-assets__}/img/header/1.png" alt="">
                     </div>
                     <div class="swiper-slide">
-                        <img src="https://s1.ax1x.com/2023/05/01/p98Mzbn.png" alt="">
+                        <img src="{__A-assets__}/img/header/2.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{__A-assets__}/img/header/3.png" alt="">
                     </div>
                 </div>
                 <!-- 分页器 -->
@@ -31,56 +34,24 @@
     </div>
 
     <!-- 分类组件 -->
-    <div class="mdui-p-t-2">
+    <div class="mdui-row">
         <div class="mdui-row">
-            <div class="mdui-row">
-                <div class="mdui-card mdui-shadow-0 mdui-p-x-2 mdui-p-t-2">
-                    <div class="mdui-row-xs-4">
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
-                        <div class="mdui-col mdui-text-center mdui-m-b-2">
-                            <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
-                                <i class="mdui-icon material-icons">add</i>
-                            </button>
-                        </div>
+            <div class="mdui-card mdui-shadow-0 mdui-p-x-2 mdui-p-t-2">
+                <div class="mdui-row-xs-4">
+                    {volist name='cardsTagData8' id='data'}
+                    <div onclick="jumpUrl('/index/Cards/tag/value/{$data.id}')"
+                        class="mdui-col mdui-text-center mdui-m-b-2">
+                        <button class="mdui-fab mdui-ripple mdui-color-theme-accent mdui-shadow-0">
+                            <i class="mdui-icon material-icons">{$data['icon']}</i>
+                        </button>
+                        <div class="mdui-typo-body-1-opacity" style="padding-top: 3.3333px;">{$data['name']}</div>
                     </div>
+                    {/volist}
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- 列表组件 -->
     <div class="mdui-p-t-2">
@@ -89,6 +60,13 @@
 
             <!-- 卡片循环 -->
             {include file="index/public/component-list-cards"}
+            <div class="mdui-row"></div>
+            {if $cardsListData != []}
+            <div onclick="jumpUrl('/index/Cards')"
+                class="mdui-typo-body-2-opacity mdui-text-center mdui-text-color-theme-accent mdui-p-t-2 mdui-p-b-5 mdui-m-b-3">
+                查看全部
+            </div>
+            {/if}
             <!-- 分享弹窗 -->
             {include file="index/public/component-share"}
 
@@ -119,8 +97,6 @@
                 prevEl: '.swiper-button-prev',
             },
         })
-        //     //获取Tag数据
-        //     ViewCardsTag({ $cardsTagData| raw});
     })
 </script>
 

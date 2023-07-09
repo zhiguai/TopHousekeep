@@ -1,10 +1,15 @@
 {include file="index/public/header"}
 
 <!-- 页体 -->
-<div id="jsParameter" class="mdui-container">
+<div id="jsParameter" jsTabClass="false" class="mdui-container">
+
+    <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised"
+        style="margin: 6px;">
+        <i class="mdui-icon material-icons">arrow_back</i>
+    </button>
 
     <!-- 主体组件 -->
-    <div class="mdui-p-t-2">
+    <div class="mdui-p-t-1">
 
         <div class="mdui-row-xs-2">
             <!-- 卡片循环 -->
@@ -35,7 +40,7 @@
         //初始化分页
         pager();
         //获取Tag数据
-        ViewCardsTag({$cardsTagData|raw});
+        ViewCardsTag('{$cardsTagData|raw}');
     })
 
 </script>

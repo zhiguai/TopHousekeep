@@ -7,10 +7,6 @@
         <div class="mdui-col-xs-6">
             <h1 class="mdui-text-color-theme mdui-p-t-2">{$viewTitle}</h1>
         </div>
-        <div class="mdui-col-xs-6">
-            <button class="mdui-m-t-4 mdui-float-right mdui-btn mdui-btn-raised mdui-color-theme-accent mdui-ripple"
-                onclick="jumpUrl('/admin/User/Order')">添加</button>
-        </div>
     </div>
 
     <!-- 主体组件 -->
@@ -20,8 +16,10 @@
                 <tr>
                     <th>ID</th>
                     <th>CID</th>
-                    <th>UID</th>
-                    <th>状态</th>
+                    <th>订单号</th>
+                    <th>封禁状态</th>
+                    <th>订单状态</th>
+                    <th>实付金额(￥)</th>
                     <th>地址</th>
                     <th>备注</th>
                     <th>服务日期</th>
@@ -35,30 +33,45 @@
                 <tr>
                     <td>{$data.id}</td>
                     <td>{$data.cid}</td>
-                    <td>{$data.uid}</td>
-                    <td value="{$data.state}">
+                    <td>{$data.number}</td>
+                    <td value="{$data.ban}">
                         <div class="mdui-chip">
-                            {if $data.state == 0}
-                            <span class="mdui-chip-title">封禁</span>
+                            {if $data.ban == 'false'}
+                            <span class="mdui-chip-title">false</span>
                             {/if}
-                            {if $data.state == 1}
-                            <span class="mdui-chip-title">未开始</span>
-                            {/if}
-                            {if $data.state == 2}
-                            <span class="mdui-chip-title">进行中</span>
-                            {/if}
-                            {if $data.state == 3}
-                            <span class="mdui-chip-title">结束</span>
+                            {if $data.ban == 'true'}
+                            <span class="mdui-chip-title">true</span>
                             {/if}
                         </div>
                     </td>
-                    <td>{$data.addres}</td>
-                    <td>
-                        <input class="mdui-textfield-input" style="width:unset"
-                            mdui-tooltip="{content: '{$data.content}'}" type="text" value="{$data.content}"
-                            readonly="true" />
+                    <td value="{$data.status}">
+                        <div class="mdui-chip">
+                            {if $data.status == 0}
+                            <span class="mdui-chip-title">未受理</span>
+                            {/if}
+                            {if $data.status == 1}
+                            <span class="mdui-chip-title">已受理</span>
+                            {/if}
+                            {if $data.status == 2}
+                            <span class="mdui-chip-title">进行中</span>
+                            {/if}
+                            {if $data.status == 3}
+                            <span class="mdui-chip-title">已完成</span>
+                            {/if}
+                            {if $data.status == 4}
+                            <span class="mdui-chip-title">订单结束</span>
+                            {/if}
+                        </div>
                     </td>
-                    <td>{$data.note}</td>
+                    <td>{$data.price}</td>
+                    <td>
+                        <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                            value="{$data.address}" readonly="true" />
+                    </td>
+                    <td>
+                        <input class="js-mdui-Tooltip mdui-textfield-input" style="width:unset" type="text"
+                            value="{$data.note}" readonly="true" />
+                    </td>
                     <td>{$data.service_date}</td>
                     <td>{$data.creat_date}</td>
                     <td>{$data.ip}</td>
@@ -78,31 +91,49 @@
 
     <!-- 弹窗组件 -->
     <div class="mdui-dialog" id="dialogedit">
-        <div class="mdui-dialog-title">编辑评论</div>
+        <div class="mdui-dialog-title">编辑订单</div>
         <div class="mdui-row mdui-p-x-4">
             <div class="mdui-row">
-                <div class="mdui-col-xs-9 mdui-col-md-10">
+                <div class="mdui-col-xs-6 mdui-col-md-8">
                     <div class="mdui-textfield">
-                        <label class="mdui-textfield-label">昵称</label>
-                        <input class="mdui-textfield-input" id="editCommentsDataName" type="text" />
+                        <label class="mdui-textfield-label">实付金额</label>
+                        <input class="mdui-textfield-input" id="editOrderDataPrice" type="text" />
                     </div>
                 </div>
                 <div class="mdui-col-xs-3 mdui-col-md-2">
-                    <label class="mdui-textfield-label mdui-m-t-2">状态</label>
-                    <select class="mdui-select" id="editCommentsDataState">
-                        <option value="0">正常</option>
-                        <option value="1">封禁</option>
+                    <label class="mdui-textfield-label mdui-m-t-2">封禁状态</label>
+                    <select class="mdui-select" id="editOrderDataBan">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
+                    </select>
+                </div>
+                <div class="mdui-col-xs-3 mdui-col-md-2">
+                    <label class="mdui-textfield-label mdui-m-t-2">订单状态</label>
+                    <select class="mdui-select" id="editOrderDataStatus">
+                        <option value="0">未受理</option>
+                        <option value="1">已受理</option>
+                        <option value="2">进行中</option>
+                        <option value="3">已完成</option>
+                        <option value="4">订单结束</option>
                     </select>
                 </div>
             </div>
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">内容</label>
-                <textarea class="mdui-textfield-input" id="editCommentsDataContent" rows="4"></textarea>
+                <label class="mdui-textfield-label">上门时间</label>
+                <input class="mdui-textfield-input"  id="editOrderDataServiceDate" type="datetime-local" />
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">上门地址</label>
+                <textarea class="mdui-textfield-input" id="editOrderDataAddres"></textarea>
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">上门备注</label>
+                <textarea class="mdui-textfield-input" id="editOrderDataNote" rows="4"></textarea>
             </div>
         </div>
 
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" id="btnEditComments" mdui-dialog-close>确定</button>
+            <button class="mdui-btn mdui-ripple" id="btnEditOrder" mdui-dialog-close>确定</button>
         </div>
     </div>
 
@@ -131,7 +162,7 @@
                 'uuid': $.cookie('uuid'),
                 'id': $(this).parent().siblings('td:first').html()
             };
-            var result = apiAjax0(data, apiCardsCommentsDelete, 'POST');
+            var result = apiAjax0(data, apiCardsOrderDelete, 'POST');
             if (result) {
                 $(this).parent().html("已删除")
                 mdui.snackbar({
@@ -144,22 +175,28 @@
         //按钮-初始化-编辑
         $('.js-Btn-Edit').click(function () {
             var thisObj = $(this).parent().siblings('td');
-            $('#editCommentsDataName').val(thisObj.eq(3).html());
-            $('#editCommentsDataContent').val(thisObj.eq(4).children().val());
-            $('#editCommentsDataState').val(thisObj.eq(2).attr('value'));
-            $('#btnEditComments').val(thisObj.eq(0).html());
+            $('#editOrderDataPrice').val(thisObj.eq(5).html());
+            $('#editOrderDataAddres').val(thisObj.eq(6).children().val());
+            $('#editOrderDataStatus').val(thisObj.eq(4).attr('value'));
+            $('#editOrderDataBan').val(thisObj.eq(3).attr('value'));
+            $('#editOrderDataNote').val(thisObj.eq(7).children().val());
+            $('#editOrderDataServiceDate').val(thisObj.eq(8).html());
+            $('#btnEditOrder').val(thisObj.eq(0).html());
         });
 
         //按钮-请求-编辑
-        $('#btnEditComments').click(function () {
+        $('#btnEditOrder').click(function () {
             var data = {
                 'uuid': $.cookie('uuid'),
-                'id': $('#btnEditComments').val(),
-                'name': $('#editCommentsDataName').val(),
-                'content': $('#editCommentsDataContent').val(),
-                'state': $('#editCommentsDataState').val()
+                'id': $('#btnEditOrder').val(),
+                'price': $('#editOrderDataPrice').val(),
+                'address': $('#editOrderDataAddres').val(),
+                'status': $('#editOrderDataStatus').val(),
+                'ban': $('#editOrderDataBan').val(),
+                'service_date': $('#editOrderDataServiceDate').val(),
+                'note': $('#editOrderDataNote').val()
             };
-            var result = apiAjax0(data, apiCardsCommentsEdit, 'POST');
+            var result = apiAjax0(data, apiOrderEdit, 'POST');
             if (result) {
                 $.cookie('msg', '编辑成功', { path: '/' });
                 jumpUrl('', 100);

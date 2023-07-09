@@ -1,10 +1,13 @@
 {include file="index/public/header"}
 
 <!-- 页体 -->
-<div id="jsParameter" jsTabClass="3" layer="0" class="mdui-container mdui-p-t-2">
+<div id="jsParameter" jsTabClass="false" layer="0" class="mdui-container">
 
     <div class="mdui-p-t-2">
         <div class="mdui-typo-headline-opacity">
+            <button class="js-jumpurl-BackUp mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-btn-raised">
+                <i class="mdui-icon material-icons">arrow_back</i>
+            </button>
             关于
             <div class="mdui-chip">
                 <span class="mdui-chip-title">{$searchValue}</span>
@@ -15,7 +18,7 @@
     <!-- 主体组件 -->
     <div id="jsMainComp" class="mdui-m-t-2">
 
-        <div class="mdui-row-xs-1 mdui-row-sm-2 mdui-row-md-3 mdui-row-lg-3">
+        <div class="mdui-row-xs-2 mdui-row-sm-2 mdui-row-md-3 mdui-row-lg-3">
             <!-- 卡片循环 -->
             {include file="index/public/component-list-cards"}
             <!-- 分享弹窗 -->
@@ -33,7 +36,7 @@
         //初始化-分页组件
         pager();
         //初始化-Tag组件
-        ViewCardsTag({$cardsTagData|raw});
+        //ViewCardsTag('');
         //初始化-View-搜索
         if (getUrlParam('value')) {
             $('#SearchValue').html('')

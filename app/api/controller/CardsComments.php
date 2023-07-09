@@ -27,9 +27,15 @@ class CardsComments
     {
         //防手抖
         $preventClicks = Common::preventClicks('LastPostTime');
-        if($preventClicks[0] == false){
+        if ($preventClicks[0] == false) {
             //返回数据
             return Common::create(['prompt' => $preventClicks[1]], '添加失败', 500);
+        }
+
+        //验证身份并返回数据
+        $userData = Common::validateUserAuth();
+        if (!empty($userData[0])) {
+            return Common::create([], $userData[1], $userData[0]);
         }
 
         $cid = Request::param('cid');
@@ -37,20 +43,24 @@ class CardsComments
             return Common::create(['cid' => '缺少参数'], '添加失败', 400);
         }
 
-        $name = Request::param('name');
+        $number = Request::param('number');
+        if (!$number) {
+            return Common::create(['number' => '缺少参数'], '添加失败', 400);
+        }
+
+        $uid = $userData['id'];
+        $name = $userData['name'];
         $content = Request::param('content');
 
         $time = date('Y-m-d H:i:s');
         $ip = Common::getIp();
-        $state = 0; //上/下:0/1
+        $ban = 'false'; //上/下:0/1
 
         //验证参数是否合法
         try {
             validate(CommentsValidate::class)->batch(true)
                 ->check([
-                    'content' => $content,
-                    'name' => $name,
-                    'state' => $state
+                    'content' => $content
                 ]);
         } catch (ValidateException $e) {
             // 验证失败 输出错误信息
@@ -61,7 +71,16 @@ class CardsComments
         //获取数据库对象
         $result = Db::table('cards_comments');
         //整理数据
-        $data = ['cid' => $cid, 'content' => $content, 'name' => $name,  'state' => $state, 'ip' => $ip, 'time' => $time];
+        $data = [
+            'uid' => $uid,
+            'cid' => $cid,
+            'content' => $content,
+            'name' => $name,
+            'ban' => $ban,
+            'ip' => $ip,
+            'number' => $number,
+            'date' => $time
+        ];
         //写入失败返回
         if (!$result->insert($data)) {
             return Common::create(['CardsComments' => '写入失败'], '添加失败', 400);
@@ -80,9 +99,9 @@ class CardsComments
     public function edit()
     {
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
         $id = Request::param('id');
@@ -93,15 +112,14 @@ class CardsComments
         $name = Request::param('name');
         $content = Request::param('content');
 
-        $state =  Request::param('state'); //上/下:0/1
+        $ban =  Request::param('ban'); //上/下:0/1
 
         //验证参数是否合法
         try {
             validate(CommentsValidate::class)->batch(true)
                 ->check([
                     'content' => $content,
-                    'name' => $name,
-                    'state' => $state
+                    'name' => $name
                 ]);
         } catch (ValidateException $e) {
             // 验证失败 输出错误信息
@@ -116,7 +134,7 @@ class CardsComments
         }
 
         //整理数据
-        $data = ['content' => $content, 'name' => $name,  'state' => $state];
+        $data = ['content' => $content, 'name' => $name,  'ban' => $ban];
         //写入失败返回
         if (!$result->update($data)) {
             return Common::create(['CardsComments' => '写入失败'], '编辑失败', 400);
@@ -129,9 +147,9 @@ class CardsComments
     public function delete()
     {
         //验证身份并返回数据
-        $userData = Common::validateAuth();
-        if (!empty($userData[0])) {
-            return Common::create([], $userData[1], $userData[0]);
+        $adminData = Common::validateAuth();
+        if (!empty($adminData[0])) {
+            return Common::create([], $adminData[1], $adminData[0]);
         }
 
         $id = Request::param('id');

@@ -102,7 +102,7 @@ class System
         $arr = array(
             'template_directory' => $template_directory
         );
-        $result = Common::extraconfig($arr, 'lovecards', $userData['userName']);
+        $result = Common::extraconfig($arr, 'lovecards', $userData['name']);
         if ($result == 'success') {
             return Common::create([], '修改成功', 200);
         } elseif ($result == 'error') {

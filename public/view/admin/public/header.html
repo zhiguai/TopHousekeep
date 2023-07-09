@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>{$viewTitle} - {$systemVer['Name']}</title>
+    <title>{$viewTitle}</title>
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no" />
@@ -25,7 +25,7 @@
                 mdui-drawer="{target: '#main-drawer', swipe: true}">
                 <i class="mdui-icon material-icons">menu</i>
             </span>
-            <a href="#" class="mdui-typo-headline">管理后台</a>
+            <a href="/admin" class="mdui-typo-headline">{$systemVer.Name}管理系统</a>
             <div class="mdui-toolbar-spacer"></div>
 
             <div class="mdui-typo">

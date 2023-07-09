@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th>UID</th>
-                    <th>状态</th>
+                    <th>封禁</th>
                     <th>名字</th>
                     <th>邮箱</th>
                     <th>手机</th>
@@ -61,31 +61,39 @@
 
     <!-- 弹窗组件 -->
     <div class="mdui-dialog" id="dialogedit">
-        <div class="mdui-dialog-title">编辑评论</div>
+        <div class="mdui-dialog-title">编辑用户</div>
         <div class="mdui-row mdui-p-x-4">
             <div class="mdui-row">
                 <div class="mdui-col-xs-9 mdui-col-md-10">
                     <div class="mdui-textfield">
                         <label class="mdui-textfield-label">昵称</label>
-                        <input class="mdui-textfield-input" id="editCommentsDataName" type="text" />
+                        <input class="mdui-textfield-input" id="editUserDataName" type="text" />
                     </div>
                 </div>
                 <div class="mdui-col-xs-3 mdui-col-md-2">
                     <label class="mdui-textfield-label mdui-m-t-2">状态</label>
-                    <select class="mdui-select" id="editCommentsDataState">
-                        <option value="0">正常</option>
-                        <option value="1">封禁</option>
+                    <select class="mdui-select" id="editUserDataBan">
+                        <option value="false">false</option>
+                        <option value="true">true</option>
                     </select>
                 </div>
             </div>
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">内容</label>
-                <textarea class="mdui-textfield-input" id="editCommentsDataContent" rows="4"></textarea>
+                <label class="mdui-textfield-label">邮箱</label>
+                <input class="mdui-textfield-input" id="editUserDataEmail" type="text" />
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">手机</label>
+                <input class="mdui-textfield-input" id="editUserDataPhone" type="text" />
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">密码</label>
+                <input class="mdui-textfield-input" id="editUserDataPassword" type="text" />
             </div>
         </div>
 
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" id="btnEditComments" mdui-dialog-close>确定</button>
+            <button class="mdui-btn mdui-ripple" id="btnEditUser" mdui-dialog-close>确定</button>
         </div>
     </div>
 
@@ -114,7 +122,7 @@
                 'uuid': $.cookie('uuid'),
                 'id': $(this).parent().siblings('td:first').html()
             };
-            var result = apiAjax0(data, apiCardsCommentsDelete, 'POST');
+            var result = apiAjax0(data, apiUserDelete, 'POST');
             if (result) {
                 $(this).parent().html("已删除")
                 mdui.snackbar({
@@ -127,22 +135,25 @@
         //按钮-初始化-编辑
         $('.js-Btn-Edit').click(function () {
             var thisObj = $(this).parent().siblings('td');
-            $('#editCommentsDataName').val(thisObj.eq(3).html());
-            $('#editCommentsDataContent').val(thisObj.eq(4).children().val());
-            $('#editCommentsDataState').val(thisObj.eq(2).attr('value'));
-            $('#btnEditComments').val(thisObj.eq(0).html());
+            $('#editUserDataName').val(thisObj.eq(2).html());
+            $('#editUserDataEmail').val(thisObj.eq(3).html());
+            $('#editUserDataPhone').val(thisObj.eq(4).html());
+            $('#editUserDataBan').val(thisObj.eq(1).attr('value'));
+            $('#btnEditUser').val(thisObj.eq(0).html());
         });
 
         //按钮-请求-编辑
-        $('#btnEditComments').click(function () {
+        $('#btnEditUser').click(function () {
             var data = {
                 'uuid': $.cookie('uuid'),
-                'id': $('#btnEditComments').val(),
-                'name': $('#editCommentsDataName').val(),
-                'content': $('#editCommentsDataContent').val(),
-                'state': $('#editCommentsDataState').val()
+                'uid': $('#btnEditUser').val(),
+                'name': $('#editUserDataName').val(),
+                'email': $('#editUserDataEmail').val(),
+                'phone': $('#editUserDataPhone').val(),
+                'password': $('#editUserDataPassword').val(),
+                'ban': $('#editUserDataBan').val()
             };
-            var result = apiAjax0(data, apiCardsCommentsEdit, 'POST');
+            var result = apiAjax0(data, apiUserEdit, 'POST');
             if (result) {
                 $.cookie('msg', '编辑成功', { path: '/' });
                 jumpUrl('', 100);

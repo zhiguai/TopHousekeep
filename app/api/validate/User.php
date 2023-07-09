@@ -8,10 +8,10 @@ class User extends Validate
 {
     //定义验证规则
     protected $rule =   [
-        'email'  => 'require|email|unique:user',
+        'email'  => 'require|email|unique:user,email',
         'name'  => 'require|length:3,12',
         'password'   => 'require|length:5,12',
-        'phone'   => 'require|length:11|unique:user',
+        'phone'   => 'require|length:11|unique:user,phone',
     ];
 
     //定义错误信息
@@ -27,7 +27,7 @@ class User extends Validate
         'password.length'     => '密码超出范围(5-12)',
 
         'phone.require' => '电话号不得为空',
-        'phone.length'     => '电话号超出范围(5-12)',
+        'phone.length'     => '电话号超出范围(11-11)',
         'phone.unique' => '电话号已存在',
     ];
 
@@ -41,13 +41,14 @@ class User extends Validate
     //验证场景-添加
     protected function sceneAdd()
     {
-        return $this->only(['email', 'name', 'password', 'phone']);
+        return $this;
     }
 
     //验证场景-编辑
     protected function sceneEdit()
     {
-        return $this->only(['name', 'password', 'password', 'phone'])
-            ->remove('password', 'require');
+        return $this->remove('password', 'require')
+            ->remove('email', 'require')
+            ->remove('phone', 'require');
     }
 }

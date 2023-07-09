@@ -37,6 +37,6 @@ class CardsComments
         ]);
 
         //输出模板
-        return View::fetch('/cards-comments');
+        return View::fetch('/cards/cards-comments');
     }
 }

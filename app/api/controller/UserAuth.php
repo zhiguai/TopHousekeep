@@ -108,6 +108,7 @@ class UserAuth
         //获取数据库对象
         $result = Db::table('user');
         $time = date('Y/m/d H:i:s');
+        $ip = Common::getIp();
         //整理数据
         $data = [
             'name' => $name,
@@ -117,13 +118,15 @@ class UserAuth
             'ban' => self::DefSetUserBan,
             'login_date' => $time,
             'registration_date' => $time,
+            'ip' => $ip,
         ];
         //写入库
-        if (!$result->save($data)) {
+        $id = $result->insertGetId($data);
+        if (!$id) {
             return Common::create([], '写入失败', 501);
         } else {
             //设置登入凭证
-            $data = self::setUuid($result->value('id'), 3600 * 3);
+            $data = self::setUuid($id, 3600 * 3);
             //返回数据
             if (!$data) {
                 return Common::create($data, '注册成功，登入失败', 500);

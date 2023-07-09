@@ -180,7 +180,7 @@ class Cards
         $introduction = Request::param('introduction');
 
         $img = json_decode(Request::param('img'), true);
-        
+
         //判断是否上传图片
         if (sizeof($img) < 1) {
             return Common::create(['img' => '请上传图片'], '编辑失败', 400);
@@ -229,7 +229,6 @@ class Cards
             return Common::create([], 'id不存在', 400);
         }
 
-        //判断卡模式
         $data = array(); //清空数组
         //构建数据格式
         $data = [
@@ -365,6 +364,12 @@ class Cards
     //推荐-POST
     public function good()
     {
+        //验证身份并返回数据
+        $userData = Common::validateUserAuth();
+        if (!empty($userData[0])) {
+            return Common::create([], $userData[1], $userData[0]);
+        }
+
         //获取数据
         $id = Request::param('id');
         $ip = Common::getIp();
@@ -379,21 +384,22 @@ class Cards
 
         //获取good数据库对象
         $resultGood = Db::table('good');
-        if ($resultGood->where('pid', $id)->where('ip', $ip)->find()) {
-            return Common::create(['tip' => '请勿重复点赞'], '点赞失败', 400);
+        if ($resultGood->where('pid', $id)->where('uid', $userData['id'])->find()) {
+            return Common::create(['tip' => '请勿重复推荐'], '推荐失败', 400);
         }
 
         //更新视图字段
         if (!$resultCards->inc('good')->update()) {
-            return Common::create(['cards.good' => 'cards.good更新失败'], '点赞失败', 400);
+            return Common::create(['cards.good' => 'cards.good更新失败'], '推荐失败', 400);
         };
 
-        $data = ['aid' => '1', 'pid' => $id, 'ip' => $ip, 'time' => $time];
+        $data = ['aid' => '1', 'uid' => $userData['id'], 'pid' => $id, 'ip' => $ip, 'date' => $time];
         if (!$resultGood->insert($data)) {
-            return Common::create(['good' => 'good写入失败'], '点赞失败', 400);
+            return Common::create(['good' => 'good写入失败'], '推荐失败', 400);
         };
 
         //返回数据
-        return Common::create(['Num' => $resultCardsData['good'] + 1], '点赞成功', 200);
+        return Common::create(['Num' => $resultCardsData['good'] + 1], '推荐成功', 200);
     }
+
 }

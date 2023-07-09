@@ -1,0 +1,9 @@
+/* 订单项目logo */
+.css-order-item {
+    min-width: 80px;
+    overflow: hidden;
+}
+.css-order-item img {
+    height: 80px;
+    background-color: #bcbec0;
+}

@@ -63,13 +63,13 @@ class System
 
         //取模板config数据
         $templateDirectory = File::get_dirs('./view/index')['dir'];
-        for ($i = 2; $i < count($templateDirectory); $i++) {
-            if ($templateDirectory[$i] != '.' && $templateDirectory[$i] != '..') {
+        for ($i = 0; $i < count($templateDirectory); $i++) {
+            if($templateDirectory[$i] != '.'&&$templateDirectory[$i]!='..'){
                 $t = './view/index/' . $templateDirectory[$i];
                 if (File::get_size($t) != 0) {
                     $testTemplateConfig[$templateDirectory[$i]] = json_decode(File::read_file($t . '/config.ini'), true);
                     $testTemplateConfig[$templateDirectory[$i]]['DirectoryName'] = $templateDirectory[$i];
-                }
+                }  
             }
         }
         $templateConfig = array();

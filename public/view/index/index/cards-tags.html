@@ -1,0 +1,55 @@
+{include file="index/public/header"}
+
+<!-- 页体 -->
+<div id="jsParameter" jsTabClass="2" layer="0" class="">
+
+    <div class="mdui-col-xs-5 mdui-card mdui-shadow-0" style="height: 100vh;">
+        <ul class="mdui-list">
+            {volist name="cardsTagData" id="data"}
+            <li onclick="jumpUrl('/index/cards/tags/value/{$data.id}')" class="mdui-list-item mdui-ripple">
+                <div class="mdui-list-item-content">{$data.name}</div>
+                <i class="mdui-list-item-icon mdui-icon material-icons">{$data.icon}</i>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+
+    <div class="mdui-col-xs-7">
+        
+        <!-- tag -->
+        <div class="mdui-col mdui-m-t-2">
+            <div class="mdui-card mdui-shadow-0 mdui-p-a-1 mdui-color-grey-300">
+                {if $searchValue != false}
+                <div class="mdui-typo-subheading">{$tagData.name}</div>
+                <div class="mdui-typo-body-2-opacity">{$tagData.tip}</div>
+                {else}
+                <div class="mdui-typo-subheading">请选择标签</div>
+                {/if}
+            </div>
+        </div>
+        <div class="mdui-p-t-2">
+            <!-- 卡片循环 -->
+            {include file="index/public/component-list-cards"}
+            {if $cardsListData != []}
+            <div onclick="jumpUrl('/index/Cards/tag/{$data.id}')" class="mdui-typo-body-2-opacity mdui-text-center mdui-text-color-theme-accent mdui-p-t-2 mdui-p-b-5 mdui-m-b-3">
+                查看全部
+            </div>
+            {else}
+            <div class="mdui-typo-title-opacity mdui-text-center" style="padding-top: 184px">没有唉~</div>
+            {/if}
+        </div>
+    </div>
+
+</div>
+
+{include file="index/public/footer"}
+
+<script>
+    $(function () {
+
+    });
+</script>
+
+</body>
+
+</html>
